@@ -1,0 +1,505 @@
+{% extends "super_admin/menu.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="box_header">
+                    <div class="row">
+                        <div class="col-md-7 col-12">
+                            <div class="mainiconbox"><i class="fa fa-user"></i>
+                            </div>
+                            <h4 class="m-t-0 header-title">
+                                <div class="breadcrumbs ng-scope">
+                                    <ul>
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a>Petty Cash Management </a></li>
+                                        <!-- <li><a>User  Settings</a></li> -->
+                                    </ul>
+                                    <div>Petty Cash Settings</div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="col-md-5 col-12">
+                            <div class="pull-right p-t-10">
+
+                                <a data-toggle="modal" class="btn btn-info newbtn_crete" data-target="#newuser"> <i class="mdi mdi-plus-circle-outline"></i> APPLY PETTY CASH
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-box ">
+                    <div class="table_rspnsv" id="tableview">
+                        <div class="row2 tbl_stngs commen_table">
+
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap table-hover" style="width: 100%;">
+
+                                <thead>
+                                <tr>
+                                    <th>Amount Requested</th>
+                                    <th>IBAN NO</th>
+                                    <th>Job No</th>
+                                    <th >Purpose</th>
+                                  
+                                    <th>Created At</th>
+                                   
+                                    
+                                  
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for history in leave_history_response %}
+                                <tr>
+                                    <td><a class="label-default" href="#/">{{history.holiday_status_id.1}}</a></td>
+                                   <td>
+                                    {{history.date_from}}
+                                   </td>
+                                   <td>
+                                    {{history.date_to}}
+                                   </td>
+                                   <td>
+                                    {{history.number_of_days}}
+                                   </td>
+                                   <td>
+                                   
+                                    {{history.name}}
+                                   </td>
+                                   <td>
+                                    {{history.create_date}}
+                                   </td>
+
+                                </tr>
+                                {% endfor %}
+                           
+                       
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container -->
+</div>
+</div>
+</div>
+
+<!-- <div class="modal modal-right fade" id="newuser" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-full" > -->
+<div id="newuser" class="modal modal-right fade" role="dialog" data-backdrop="static"  >
+<div class="modal-dialog modal-full">
+<!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Petty Cash Application Form 
+<br>    <span style="color: red;
+font-size: 16px;
+font-weight: bold;
+">Existsting Amount : 2500</span>
+
+        </h4>
+        <div class="pull-right"> <a class="btn enlarge_modal" data-toggle="tooltip" data-original-title="Fullscreen"><i
+                        class="mdi mdi-crop-free" aria-hidden="true"></i> </a>
+            <a class="btn dslarge_modal" data-toggle="tooltip" data-original-title="Back"><i
+                        class="mdi mdi-arrow-expand-all" aria-hidden="true"></i> </a>
+        </div>
+    </div>
+    <form action="user_apply_leave_action" method="POST">
+        
+        {% csrf_token %}
+    <div class="modal-body">
+        <input type="hidden" name="leave_type_nm" id="leave_type_nm">
+
+            <div class="col-md-12">
+                <div class="row m-t-15">
+                    <div class="col-md-6 colp_r_15">
+                        <div class="row">
+                          
+                        
+                            <div class="col-md-8 pad5 mt-4" >
+                                <div class="form-group">
+                                    <div class="form-group bmd-form-group required_item">
+                                        <input  required type="number"  class="form-control">
+                                        <label class="inputText openselect2">Amount Requested</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 pad5">
+                                <div class="form-group"> <label>Job No</label> 
+                                        
+                                    <select name="leave_type" class="form-control select2 select2-hidden-accessible" id="emp_name" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option selected="selected">Select Job No</option>
+
+                                    {% for leave_type in leave_type_response %}
+
+                                    <option value="{{leave_type.id}}">{{leave_type.name}}</option>
+
+                                    {% endfor %}
+
+                                    
+                                 
+                                </select> </div> <!-- /.form-group -->
+                            </div>
+                            <br>
+                        
+                            <!-- <div class="col-md-6 pad5">
+                                <div class="form-group">
+                                    <div class="form-group bmd-form-group required_item">
+                                        <input type="text" class="input form-control">
+                                        <label class="inputText openselect2">Re-type Password</label>
+                                    </div>
+                                </div>
+                            </div> -->
+                        
+                        </div>
+                    </div>
+                    <div class="col-md-6 colp_l_15">
+                        <div class="row">
+                            <div class="col-md-12 pad5 mt-4">
+                                <div class="form-group">
+                                    <textarea name="description" rows="1" class="form-control input_textaerea tstarea"></textarea>
+                                    <label class="bmd-label-floating inputText">Purpose</label>
+                                </div>
+                            </div>
+
+                          
+                    
+
+
+                        </div>
+                    </div>
+                </div>
+     
+      
+    </div>
+    <div class="modal-footer" style="    margin: 15px 15px;
+    color: red;
+    border-top: 2px solid #423d58;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info" >Save</button>
+    </div>
+    
+    </form>
+</div>
+</div>
+</div>
+
+
+
+<script src="{% static 'adminnew/js/jquery.min.js' %}"></script>
+<script src="{% static 'adminnew/js/custome.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'adminnew/js/metisMenu.min.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.slimscroll.js' %}"></script>
+<script src="{% static 'adminnew/js/moment.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap-timepicker.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap-datetimepicker.min.js' %}"></script>
+<!--<script src="js/moment.js"></script>-->
+
+<script src="{% static 'adminnew/js/jquery.core.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.app.js' %}"></script>
+
+
+<script>
+$(window).scroll(function () {
+var scroll = $(window).scrollTop();
+if (scroll >= 0) {
+    $("html").addClass("modal-open2");
+}
+});
+</script>
+
+
+<script src="{% static 'adminnew/js/jquery.core.js'  %}"></script>
+<script src="{% static 'adminnew/js/jquery.app.js' %}"></script>
+<!-- App js -->
+<script src="{% static 'adminnew/js/select2.full.js' %}"></script>
+<script src="{% static 'adminnew/js/select2-custome.js' %}"></script>
+
+
+<script src="{% static 'adminnew/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'adminnew/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+// Default Datatable
+$('#datatable').DataTable();
+$('#responsive-datatable').DataTable();
+
+$('#datetimepickereffcet-start').datetimepicker({
+    format: 'DD-MM-YYYY'
+});
+$('#datetimepickereffcet-end').datetimepicker({
+    format: 'DD-MM-YYYY',
+    useCurrent: false //Important! See issue #1075
+});
+$("#datetimepickereffcet-start").on("dp.change", function(e) {
+    $('#datetimepickereffcet-end').data("DateTimePicker").minDate(e.date);
+});
+$("#datetimepickereffcet-end").on("dp.change", function(e) {
+    $('#datetimepickereffcet-start').data("DateTimePicker").maxDate(e.date);
+});
+
+$('#datetimepicker-role-start').datetimepicker({
+    format: 'DD-MM-YYYY'
+});
+$('#datetimepicker-role-end').datetimepicker({
+    format: 'DD-MM-YYYY',
+    useCurrent: false //Important! See issue #1075
+});
+$("#datetimepicker-role-start").on("dp.change", function(e) {
+    $('#datetimepicker-role-end').data("DateTimePicker").minDate(e.date);
+});
+$("#datetimepicker-role-end").on("dp.change", function(e) {
+    $('#datetimepicker-role-start').data("DateTimePicker").maxDate(e.date);
+});
+
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+$(".appnd_user_btn").click(function() {
+
+
+    $(".apenduser").append("<tr>\n" +
+        "                                    <td class=\"th_btnpand\">\n" +
+        "                                        <div class=\"appnd_user_minus_btn appnd_minus_btn\">-</div>\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_role\">\n" +
+        "                                        <select name=\"role_id[]\" class=\"form-control\">\n" +
+        "                                            {% for role in  role_data %}\n" +
+        "                                           <option value=\"{{role.id}}\">{{role.role_name}}</option>\n" +
+        "                                           {% endfor %}\n" +
+        "                                        </select>\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_decrptn\">\n" +
+        "                                        <input name=\"role_description[]\" class=\"form-control\">\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_strtdate\">\n" +
+        "                                        <div class=\"input-group date\">\n" +
+        "                                            <input name=\"role_start_dt[]\" type=\"date\" class=\"input form-control\" id=\"datetimepicker\"> \n" +
+        "                                        </div>\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_enddate\">\n" +
+        "                                        <div class=\"input-group date\">\n" +
+        "                                            <input name=\"role_end_dt[]\" type=\"date\" class=\"input form-control\" id=\"datetimepicker\"> \n" +
+        "                                        </div>\n" +
+        "                                    </td>\n" +
+        "                                </tr>");
+    $(".appnd_user_minus_btn").click(function() {
+        $(this).parent().parent().remove();
+    });
+});
+});
+</script>
+
+
+<script>
+
+    $("#passwd_day_btn").click(function(){
+        document.getElementById("password_effective_date").style = "block"
+    
+    })
+
+    $("#passwd_no_expire1").click(function(){    
+
+        $("#password_effective_date").hide();
+     
+        document.getElementById("password_effective_date").style = "none"
+    })
+</script>
+
+
+<script>
+
+    $("#manually").click(function(){
+        $("#password-div").show();
+    })
+</script>
+<script>
+    $("#automatically").click(function(){
+        $("#password-div").hide();
+    })
+</script>
+
+<script>
+    
+    $("#emp_name").change (function () {  
+       
+        var selectedemploye_name = $(this).children("option:selected").val();  
+        // alert(selectedemploye_name)
+
+        // if(selectedemploye_name == "Annual Vacation"){
+            
+
+        //     $("#annual_leave_div").show();
+        // }
+        // else{
+        //     $("#annual_leave_div").hide();
+        // }
+
+
+
+        $.ajax({
+            url: 'get_total_available_leave_count',
+            // datatype: 'json',
+            data: {
+                'leave_type': selectedemploye_name       
+            },
+            type: 'GET',
+            success: function (data) {  
+
+                var response_message = data['respose_status']
+
+               
+                if(response_message == "success"){
+
+                    var annual_status = data['annual_status']
+                    
+                    if(annual_status == true){
+                        $("#annual_leave_div").show();
+                    }
+                    else{
+                        $("#annual_leave_div").hide();
+                    }
+                    $("#leave_type_nm").val(data['leave_type_name'])
+                    $("#available_leave").val(data['total_available_leave'])
+                }
+                else{
+                    $("#annual_leave_div").hide();
+                    $("#available_leave").val(0)
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Requestsed Leave Type is not available Please contact Admin!',
+ 
+                    })
+                }
+
+               
+               
+              
+
+          
+                
+            }
+            
+        });
+       
+        
+       
+    })
+</script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+var message = `{{message}}`
+
+
+
+if(message == "added"){
+
+    Swal.fire({
+  icon: 'success',
+  title: 'add...',
+  text: 'create new user data successfully',
+ 
+})
+}
+
+else if(message == "already_exists"){
+    Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'User  already exists!',
+ 
+})
+}
+
+</script>
+
+<script>
+
+
+
+$("#to_dt_change").on("change",function(){
+    
+    var selected = $(this).val();
+    var date = new Date($('#from_dt_change').val());
+   
+
+    
+    var start = $(this).val();
+    var end = $('#from_dt_change').val();
+    var start = new Date(start);
+end   = new Date(end);
+diff  = new Date(start - end);
+days  = diff/1000/60/60/24;
+days = days+1
+//    alert(days)
+   $("#total_days").val(days)
+   
+});
+</script>
+
+<script>
+    $(function(){
+var dtToday = new Date();
+
+var month = dtToday.getMonth() + 1;
+var day = dtToday.getDate();
+var year = dtToday.getFullYear();
+if(month < 10)
+    month = '0' + month.toString();
+if(day < 10)
+    day = '0' + day.toString();
+
+var minDate= year + '-' + month + '-' + day;
+
+$('#to_dt_change').attr('min', minDate);
+
+$('#from_dt_change').attr('min', minDate);
+});
+</script>
+
+
+<script>
+
+    $("#from_dt_change").on("change",function(){
+        var dt = $('#from_dt_change').val();
+        // alert(dt)
+        var dtToday = new Date(dt);
+        
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+            day = '0' + day.toString();
+        
+        var minDate= year + '-' + month + '-' + day;
+        
+        $('#to_dt_change').attr('min', minDate);
+    
+    
+    });
+        </script>
+
+
+{% endblock %}

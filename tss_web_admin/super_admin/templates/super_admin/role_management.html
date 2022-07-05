@@ -1,0 +1,806 @@
+{% extends "super_admin/menu.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="box_header">
+                    <div class="row">
+                        <div class="col-md-7 col-12">
+                            <div class="mainiconbox"><i class="fa fa-black-tie"></i>
+                            </div>
+                            <h4 class="m-t-0 header-title">
+                                <div class="breadcrumbs ng-scope">
+                                    <ul>
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a>Settings</a></li>
+                                        <li><a>Role</a></li>
+                                    </ul>
+                                    <div>Role Settings</div>
+                                </div>
+                            </h4>
+                        </div>
+
+                        <div class="col-md-5 col-12">
+                            <div class="pull-right p-t-10">
+                                <a data-toggle="modal" class="btn btn-info newbtn_crete" data-target="#newsrole"> <i class="mdi mdi-plus-circle-outline"></i> New
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-box ">
+                    <div class="card-box ">
+                        <div class="table_rspnsv" id="tableview">
+                            <div class="row2 tbl_stngs commen_table">
+
+                                <table id="datatable" class="table table-bordered dt-responsive nowrap table-hover" style="width: 100%;">
+
+                                    <thead>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for data in data %}
+                                    <tr>
+
+                                        <td>
+                                            {{data.role_name}}
+                                        </td>
+                                        <td>
+                                            <!-- <a class="label-default" href="edit_role_details?id={{data.id}}"> <i class="fa fa-pencil"></i> </a> -->
+                                            <a data-id="{{data.id}}" class="label-default role-edit-action" href="#"> <i class="fa fa-pencil"></i> </a>
+                                            <a class="label-default" href="view_role_more_details?id={{data.id}}"> <i class="fa fa-eye"></i> </a>
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+                                  
+                                  
+                                   
+                                 
+                                  
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container -->
+</div>
+</div>
+</div>
+
+
+<div class="modal modal-right fade" id="newsrole" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-full" >
+<!-- <div id="newsrole" class="modal fade" role="dialog" data-backdrop="static">
+<div class="modal-dialog modal_large"> -->
+<!-- Modal content-->
+<form action="add_role_action" method="POST">
+    {% csrf_token %}
+<div class="modal-content">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add New Role</h4>
+        <div class="pull-right"><a class="btn enlarge_modal" data-toggle="tooltip" data-original-title="Fullscreen"><i
+                        class="mdi mdi-crop-free" aria-hidden="true"></i> </a>
+            <a class="btn dslarge_modal" data-toggle="tooltip" data-original-title="Back"><i
+                        class="mdi mdi-arrow-expand-all" aria-hidden="true"></i> </a>
+        </div>
+    </div>
+    
+    <div class="modal-body">
+        
+            <div class="col-md-12">
+                <div class="row m-t-15">
+                    <div class="col-xl-12 col-lg-12 col-md-12 colp_r_15">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="form-group bmd-form-group">
+                                            <input type="text" id="role_name1" required name="role_name" class="input form-control">
+                                            <label class="inputText openselect2">Role Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea rows="1" id="role_description" required name="description" class="form-control input_textaerea tstarea"></textarea>
+                                        <label class="bmd-label-floating inputText">Description</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="user_daterangpickrbox expirationbox m-t-10-imprtnt">
+
+                                    <h3 class="big_title2">Status</h3>
+
+                                    <div class="input-daterange" id="date-range">
+                                        <div class="form-group bmd-form-group m-t-8">
+                                            <!--                                                        <label class="">Gender</label>-->
+
+                                            <div class="radio radio-info float_left_radio">
+                                                <input type="radio" value="True" id="customRadio1"  checked name="role_status">
+                                                <label for="customRadio1">Active</label>
+                                            </div>
+                                            <div class="radio radio-info">
+                                                <input type="radio" value="False" name="role_status" id="customRadio2">
+                                                <label for="customRadio2">Inactive </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-t-15">
+                    <div class="col-xl-10 col-lg-12 col-md-12">
+                        <div class="row_addroltablealign">
+                            <table class="addroletablealn">
+                                <thead>
+                                <tr class="bgcolr1">
+                                    <th style=" border-bottom: 1px solid #e7e7e7;width: 160px"></th>
+                                    <th>Read</th>
+                                    <th>Write</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                    <th>View All</th>
+                                    <th>Manage All</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <th>Company</th>
+                                    <td>
+
+
+
+
+                                        <div class="checkbox">
+                                            <input id="company_read" name="company_read" type="checkbox" value="on">
+                                            <input type="hidden" name="_roleLinkAllocation[0].readAccess" value="on">
+                                            <label for="company_read"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="company_write" name="company_write" value="on">
+                                            <label for="company_write"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="company_edit" id="company_edit" value="on">
+                                            <label for="company_edit"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="company_delete" id="company_delete" value="on">
+                                            <label for="company_delete"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox"  name="company_view_all" id="company_view_all" value="on">
+                                            <label for="company_view_all"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="company_manage_all" id="company_manage_all" value="on">
+                                            <label for="company_manage_all"></label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <th>Role</th>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="role_read" id="role_read" value="on">
+                                            <label for="role_read"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="role_write" id="role_write" value="on">
+                                            <label for="role_write"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="role_edit" id="role_edit" value="on">
+                                            <label for="role_edit"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="role_delete" id="role_delete" value="on">
+                                            <label for="role_delete"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="role_view_all" id="role_view_all" value="on">
+                                            <label for="role_view_all"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="role_manage_all" id="role_manage_all" value="on">
+                                            <label for="role_manage_all"></label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <th>Employee</th>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="employee_read" id="employee_read" value="on">
+                                            <label for="employee_read"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="employee_write" id="employee_write" value="on">
+                                            <label for="Checkbox_14"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="employee_edit" id="employee_edit" value="on" >
+                                            <label for="employee_edit"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="employee_delete" id="employee_delete" value="on">
+                                            <label for="employee_delete"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="employee_view_all" id="employee_view_all" value="on">
+                                            <label for="employee_view_all"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="employee_manage_all" id="employee_manage_all" value="on">
+                                            <label for="employee_manage_all"></label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <th>User</th>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="user_read" id="user_read" value="on">
+                                            <label for="user_read"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="user_write" id="user_write" value="on">
+                                            <label for="user_write"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="user_edit" id="user_edit" value="on">
+                                            <label for="user_edit"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="user_delete" id="user_delete" value="on">
+                                            <label for="user_delete"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="user_view_all" id="user_view_all" value="on">
+                                            <label for="user_view_all"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="user_manage_all" id="user_manage_all" value="on">
+                                            <label for="user_manage_all"></label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th>Leave Management</th>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="leave_read" id="leave_read" value="on">
+                                            <label for="leave_read"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="leave_write" id="leave_write" value="on">
+                                            <label for="leave_write"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="leave_edit" id="leave_edit" value="on">
+                                            <label for="leave_edit"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="leave_delete" id="leave_delete" value="on">
+                                            <label for="leave_delete"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="leave_view_all" id="leave_view_all" value="on">
+                                            <label for="leave_view_all"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="leave_manage_all" id="leave_manage_all" value="on">
+                                            <label for="leave_manage_all"></label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th>Petty Cash</th>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="petty_read" id="petty_read" value="on">
+                                            <label for="petty_read"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="petty_write" id="petty_write" value="on">
+                                            <label for="petty_write"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="petty_edit" id="petty_edit" value="on">
+                                            <label for="petty_edit"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="petty_delete" id="petty_delete" value="on">
+                                            <label for="petty_delete"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="petty_view_all" id="petty_view_all" value="on">
+                                            <label for="petty_view_all"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="petty_manage_all" id="petty_manage_all" value="on">
+                                            <label for="petty_manage_all"></label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+ 
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info" >Save</button>
+    </div>
+
+
+
+</div>
+</form>
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="{% static 'adminnew/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'adminnew/js/dataTables.bootstrap4.min.js' %}"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        // Default Datatable
+        $('#datatable').DataTable();
+        $('#responsive-datatable').DataTable();
+
+
+
+
+    });
+</script>
+
+<script>
+    $("#company_view_all").click(function(){
+        var status =  $(this).is(":checked")
+        if (status == true){
+            document.getElementById("company_read").checked = true;
+        }
+        else{
+            document.getElementById("company_read").checked = false;
+        }
+
+       
+        
+    })
+    $("#company_manage_all").click(function(){
+        var status =  $(this).is(":checked")
+       if(status == true){
+        document.getElementById("company_read").checked = true;
+        document.getElementById("company_write").checked = true;
+        document.getElementById("company_edit").checked = true;
+        document.getElementById("company_delete").checked = true;
+        document.getElementById("company_view_all").checked = true;
+        document.getElementById("company_manage_all").checked = true;
+
+       }
+       else{
+        document.getElementById("company_read").checked = false;
+        document.getElementById("company_write").checked = false;
+        document.getElementById("company_edit").checked = false;
+        document.getElementById("company_delete").checked = false;
+        document.getElementById("company_view_all").checked = false;
+        document.getElementById("company_manage_all").checked = false;
+       }
+    })
+</script>
+
+<script>
+    $("#role_view_all").click(function(){
+        var status =  $(this).is(":checked")
+        if (status == true){
+            document.getElementById("role_read").checked = true;
+        }
+        else{
+            document.getElementById("role_read").checked = false;
+        }
+    })
+
+    $("#role_manage_all").click(function(){
+        var status =  $(this).is(":checked")
+       if(status == true){
+        document.getElementById("role_read").checked = true;
+        document.getElementById("role_write").checked = true;
+        document.getElementById("role_edit").checked = true;
+        document.getElementById("role_delete").checked = true;
+        document.getElementById("role_view_all").checked = true;
+        document.getElementById("role_manage_all").checked = true;
+
+       }
+       else{
+        document.getElementById("role_read").checked = false;
+        document.getElementById("role_write").checked = false;
+        document.getElementById("role_edit").checked = false;
+        document.getElementById("role_delete").checked = false;
+        document.getElementById("role_view_all").checked = false;
+        document.getElementById("role_manage_all").checked = false;
+       }
+    })
+</script>
+<script>
+
+    $("#employee_view_all").click(function(){
+        var status =  $(this).is(":checked")
+        if (status == true){
+            document.getElementById("employee_read").checked = true;
+        }
+        else{
+            document.getElementById("employee_read").checked = false;
+        }
+
+    })
+    $("#employee_manage_all").click(function(){
+        var status =  $(this).is(":checked")
+       if(status == true){
+        document.getElementById("employee_read").checked = true;
+        document.getElementById("employee_write").checked = true;
+        document.getElementById("employee_edit").checked = true;
+        document.getElementById("employee_delete").checked = true;
+        document.getElementById("employee_view_all").checked = true;
+        document.getElementById("employee_manage_all").checked = true;
+
+       }
+       else{
+        document.getElementById("employee_read").checked = false;
+        document.getElementById("employee_write").checked = false;
+        document.getElementById("employee_edit").checked = false;
+        document.getElementById("employee_delete").checked = false;
+        document.getElementById("employee_view_all").checked = false;
+        document.getElementById("employee_manage_all").checked = false;
+       }
+    })
+</script>
+
+<script>
+    $("#user_view_all").click(function(){
+        var status =  $(this).is(":checked")
+        if (status == true){
+            document.getElementById("user_read").checked = true;
+        }
+        else{
+            document.getElementById("user_read").checked = false;
+        }
+    })
+
+
+    $("#user_manage_all").click(function(){
+       
+        var status =  $(this).is(":checked")
+       
+       if(status == true){
+        document.getElementById("user_read").checked = true;
+        document.getElementById("user_write").checked = true;
+        document.getElementById("user_edit").checked = true;
+        document.getElementById("user_delete").checked = true;
+        document.getElementById("user_view_all").checked = true;
+        document.getElementById("user_manage_all").checked = true;
+
+       }
+       else{
+        document.getElementById("user_read").checked = false;
+        document.getElementById("user_write").checked = false;
+        document.getElementById("user_edit").checked = false;
+        document.getElementById("user_delete").checked = false;
+        document.getElementById("user_view_all").checked = false;
+        document.getElementById("user_manage_all").checked = false;
+       }
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+    $("#leave_view_all").click(function(){
+        var status =  $(this).is(":checked")
+        if (status == true){
+            document.getElementById("leave_read").checked = true;
+        }
+        else{
+            document.getElementById("leave_read").checked = false;
+        }
+    })
+
+
+    $("#leave_manage_all").click(function(){
+       
+        var status =  $(this).is(":checked")
+       
+       if(status == true){
+        document.getElementById("leave_read").checked = true;
+        document.getElementById("leave_write").checked = true;
+        document.getElementById("leave_edit").checked = true;
+        document.getElementById("leave_delete").checked = true;
+        document.getElementById("leave_view_all").checked = true;
+        document.getElementById("leave_manage_all").checked = true;
+
+       }
+       else{
+        document.getElementById("leave_read").checked = false;
+        document.getElementById("leave_write").checked = false;
+        document.getElementById("leave_edit").checked = false;
+        document.getElementById("leave_delete").checked = false;
+        document.getElementById("leave_view_all").checked = false;
+        document.getElementById("leave_manage_all").checked = false;
+       }
+    })
+</script>
+
+
+
+<script>
+    $("#petty_view_all").click(function(){
+        var status =  $(this).is(":checked")
+        if (status == true){
+            document.getElementById("petty_read").checked = true;
+        }
+        else{
+            document.getElementById("petty_read").checked = false;
+        }
+    })
+
+
+    $("#petty_manage_all").click(function(){
+       
+        var status =  $(this).is(":checked")
+       
+       if(status == true){
+        document.getElementById("petty_read").checked = true;
+        document.getElementById("petty_write").checked = true;
+        document.getElementById("petty_edit").checked = true;
+        document.getElementById("petty_delete").checked = true;
+        document.getElementById("petty_view_all").checked = true;
+        document.getElementById("petty_manage_all").checked = true;
+
+       }
+       else{
+        document.getElementById("petty_read").checked = false;
+        document.getElementById("petty_write").checked = false;
+        document.getElementById("petty_edit").checked = false;
+        document.getElementById("petty_delete").checked = false;
+        document.getElementById("petty_view_all").checked = false;
+        document.getElementById("petty_manage_all").checked = false;
+       }
+    })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+var message = `{{message}}`
+
+
+if(message == "add_role"){
+
+    Swal.fire({
+  icon: 'success',
+  title: 'add...',
+  text: 'create new role data successfully',
+ 
+})
+}
+
+else if(message == "alredy_exists"){
+    Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Role already exists!',
+ 
+})
+}
+
+</script>
+
+<script>
+    function ucfirst(str,force){
+          str=force ? str.toLowerCase() : str;
+          return str.replace(/(\b)([a-zA-Z])/,
+                   function(firstLetter){
+                      return   firstLetter.toUpperCase();
+                   });
+     }
+    $('#role_name1').keyup(function(evt){
+        // var cp_value= ucfirst($(this).val(),true) ;
+
+      // to capitalize all words  
+    //   var cp_value= ucwords($(this).val(),true) ;
+
+
+    //   $(this).val(cp_value );
+
+
+      var txt = $(this).val();
+
+
+
+$(this).val(txt.replace(/^(.)|\s(.)/g, function($1){ return $1.toUpperCase( ); }));
+
+    })
+
+    $("#role_description").keyup(function(evt){
+        // var cp_value= ucfirst($(this).val(),true) ;
+
+// to capitalize all words  
+var cp_value= ucwords($(this).val(),true) ;
+
+
+$(this).val(cp_value );
+    })
+</script>
+
+
+<div id="role_edit_div">
+
+</div>
+
+
+
+<script>
+
+    $(".role-edit-action").click(function(){
+      
+        var id = $(this).attr("data-id")
+        var url ="role_edit_modal_function";  // get the url of the `load_cities` view
+          
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'id': id       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#role_edit_div").html(data);  // replace the contents of the city input with the data that came from the server
+     
+          $("#editrole").modal("show")
+
+        }
+      });
+
+    })
+</script>
+
+{% if messages %}
+   <script>
+    {% for message in messages %}
+        message1 = "{{message}}"
+    
+       
+        if(message1 == "error"){
+
+            Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: "{{ message }}",
+ 
+})
+
+
+
+        }
+        else if(message1 == "success"){
+
+            Swal.fire({
+  icon: 'success',
+  title: 'add...',
+  text: 'create new role data successfully',
+ 
+})
+      
+        }
+    {% endfor %}
+   </script>
+{% endif %}
+{% endblock %}

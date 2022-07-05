@@ -1,0 +1,311 @@
+{% extends "super_admin/menu.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="box_header">
+                    <div class="row">
+                        <div class="col-md-7 col-12">
+                            <div class="mainiconbox"> <img src="{% static 'adminnew/images/dummyuser.jpg' %}" class="profileview">
+                            </div>
+                            <h4 class="m-t-0 header-title">
+                                <div class="breadcrumbs ng-scope">
+                                    <ul>
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a>Employee</a></li>
+                                    </ul>
+                                    <div>{{response.registration_number}}</div>
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-box " style="    height: auto;    min-height: calc(4vh - 41px);">
+                    <div class="col-12 p-t-15">
+                        <form>
+                            <h4 data-toggle="collapse" href="#basic" class="sub_hdng_edit"><i
+                                        class="fa fa-chevron-down"></i> Basic Detaiils</h4>
+                            <div id="basic" class="panel-collapse collapse show">
+                                <div class="m-t-30 m-b-15 acrdn_panel">
+                                    <div class="row">
+                                        <div class="col-md-6 colp_r_15">
+                                            <div class="row">
+
+                                                <div class="col-sm-6 pad5 ">
+                                                    <div class="form-group bmd-form-group required_item">
+                                                        <input value="{{response.name}}" type="text" class="input form-control getVal" >
+                                                        <label class="inputText">First Name</label>
+                                                    </div>
+                                                </div>
+                                             
+
+                                                <div class="col-xl-6 col-lg-4  pad5   position-relative">
+                                                    <div class="form-group bmd-form-group selecticonbox required_item" >
+                                                        <input  type="number"
+                                                               class="input  form-control" value="{{response.work_phone}}">
+                                                        <label class="inputText">Work Contact Number</label>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-xl-4 col-lg-4 pad5">
+                                                    <div class="form-group bmd-form-group">
+                                                        <div class="input-group">
+                                                            <input value="{% if response.birthday == False %}  {% else %}{{response.birthday|safe}} {% endif %}" type="text" class="form-control input"
+                                                                   autocomplete="off" id="dateofBirth">
+                                                            <label class="bmd-label-floating inputText labl_insd">Date
+                                                                of Birth</label>
+                                                            <div class="input-group-append">
+                                                            <span class="input-group-text "><i
+                                                                        class="fa fa-calendar"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-5 col-lg-4">
+                                                    <div class="form-group bmd-form-group m-t-8">
+
+                                                        <div class="radio radio-info float_left_radio">
+                                                            <input {% if response.gender == "male" %} checked {% else %}  {% endif %} type="radio" id="customRadio1" name="customRadio">
+                                                            <label for="customRadio1">Male</label>
+                                                        </div>
+                                                        <div class="radio radio-info">
+                                                            <input {% if response.gender == "female" %} checked {% else %}  {% endif %} type="radio" name="customRadio" id="customRadio2">
+                                                            <label for="customRadio2">Female </label>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 mt-4">
+                                                    <div class="form-group bmd-form-group">
+                                                        <div class="input-group">
+                                                            <input value="{% if response.employee_type == False %} {% else %} {{response.employee_type}} {% endif %}" type="text" class="form-control input"
+                                                                   autocomplete="off" id="dateofBirth">
+                                                            <label class="bmd-label-floating inputText labl_insd">Employee Type</label>
+                                                            <div class="input-group-append">
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 mt-4">
+                                                    <div class="form-group bmd-form-group">
+                                                        <div class="input-group">
+                                                            <input value="{% if dept == False %} {% else %} {{dept}} {% endif %}" type="text" class="form-control input"
+                                                                   autocomplete="off" id="dateofBirth">
+                                                            <label class="bmd-label-floating inputText labl_insd">Department</label>
+                                                            <div class="input-group-append">
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 mt-4">
+                                                    <div class="form-group bmd-form-group">
+                                                        <div class="input-group">
+                                                            <input value="{% if response.job_title == False %} {% else %} {{response.job_title}} {% endif %}" type="text" class="form-control input"
+                                                                   autocomplete="off" id="dateofBirth">
+                                                            <label class="bmd-label-floating inputText labl_insd">Job title</label>
+                                                            <div class="input-group-append">
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 mt-4">
+                                                    <div class="form-group bmd-form-group">
+                                                        <div class="input-group">
+                                                            <input value="{% if response.phone_number == False %} {% else %} {{response.phone_number}} {% endif %}" type="text" class="form-control input"
+                                                                   autocomplete="off" id="dateofBirth">
+                                                            <label class="bmd-label-floating inputText labl_insd">Phone Number</label>
+                                                            <div class="input-group-append">
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 mt-4">
+                                                    <div class="form-group bmd-form-group">
+                                                        <div class="input-group">
+                                                            <input value="{% if response.personal_email == False %} {% else %} {{response.personal_email}} {% endif %}" type="text" class="form-control input"
+                                                                   autocomplete="off" id="dateofBirth">
+                                                            <label class="bmd-label-floating inputText labl_insd">Personal Email</label>
+                                                            <div class="input-group-append">
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-4 mt-4">
+                                                    <div class="form-group bmd-form-group">
+                                                        <div class="input-group">
+                                                            <input value="{% if response.marital == False %} {% else %} {{response.marital}} {% endif %}" type="text" class="form-control input"
+                                                                   autocomplete="off" id="dateofBirth">
+                                                            <label class="bmd-label-floating inputText labl_insd">Marital</label>
+                                                            <div class="input-group-append">
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 colp_l_15">
+                                            <div class="row">
+
+                                                <div class="col-sm-12 pad5">
+                                                    <div class="form-group bmd-form-group">
+                                                    <textarea rows="2"
+                                                              class="form-control input_textaerea tstarea">{% if response.notes == False %} {% else %} {{response.notes}} {% endif %}</textarea>
+                                                        <label class="inputText">Notes</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-8 pad5">
+                                                    <div class="input-daterange" id="date-range">
+                                                        <div class="row">
+                                                            <div class="col-md-6 pad5">
+                                                                <div class="input-group">
+                                                                    <input value="{% if response.join_date == False %} {% else %} {{response.join_date|safe}} {% endif %}" type="text" class="form-control input"
+                                                                           name="start" id="startDate"/>
+                                                                    <label class="bmd-label-floating inputText labl_insd">Join Date</label>
+                                                                    <div class="input-group-append">
+                                                                        <span class="input-group-text "><i  class="fa fa-calendar"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                      
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8 mt-4">
+                                                    <div class="input-daterange" id="date-range">
+                                                        <div class="row">
+                                                            <div class="col-md-6 pad5">
+                                                                <div class="input-group">
+                                                                    <input value="{% if response.departure_date == False %} {% else %} {{response.departure_date|safe}} {% endif %}" type="text" class="form-control input"
+                                                                           name="start" id="startDate"/>
+                                                                    <label class="bmd-label-floating inputText labl_insd">Departure Date</label>
+                                                                    <div class="input-group-append">
+                                                                        <span class="input-group-text "><i  class="fa fa-calendar"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                      
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <h4 data-toggle="collapse" href="#location" class="sub_hdng_edit"><i class="fa fa-chevron-down"></i>Location</h4>
+                            <div id="location" class="panel-collapse collapse show ">
+                                <div class="m-t-30 m-b-15 col-12">
+                                    <p>Address.</p>
+                                  <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group bmd-form-group required_item">
+                                            <input value="{% if address_response.street == False %} {% else %} {{address_response.street}} {% endif %}" type="text" class="input form-control getVal" >
+                                            <label class="inputText">street</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group bmd-form-group required_item">
+                                            <input value="{% if address_response.street2 == False %} {% else %} {{address_response.street2}} {% endif %}" type="text" class="input form-control getVal" >
+                                            <label class="inputText">street2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group bmd-form-group required_item">
+                                            <input value="{% if address_response.city == False %} {% else %} {{address_response.city}} {% endif %}" type="text" class="input form-control getVal" >
+                                            <label class="inputText">city</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group bmd-form-group required_item">
+                                            <input value="{% if address_response.state_id.1 == False %} {% else %} {{address_response.state_id.1}} {% endif %}" type="text" class="input form-control getVal" >
+                                            <label class="inputText">state </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group bmd-form-group required_item">
+                                            <input value="{% if address_response.country_id.1 == False %} {% else %} {{address_response.country_id.1}} {% endif %}" type="text" class="input form-control getVal" >
+                                            <label class="inputText">country</label>
+                                        </div>
+                                    </div>
+                                  </div>
+                                    <div class="staff_boked_box row">
+                                      
+                                 
+                                  
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--*****************************************************-->
+                          
+
+                         
+                            <!--*****************************************************-->
+                            <!--*****************************************************-->
+                         
+
+                                    <!--**************************************************************************-->
+
+                            <!--*****************************************************-->
+                          
+                            <!--*****************************************************-->
+                          
+                            <!--*****************************************************-->
+                         
+                            <!--*****************************************************-->
+
+                         
+                          
+                            <!--*****************************************************-->
+
+                       
+                            <!--*****************************************************-->
+
+                         
+                            <!--*****************************************************-->
+                          
+                            <!--*****************************************************-->
+                         
+                            <!--*****************************************************-->
+                           
+                            <!--*****************************************************-->
+                      
+                            <!--*****************************************************-->
+
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-info pull-left">Save</button>
+                            </div> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,552 @@
+{% extends "super_admin/menu.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            
+            <div class="col-12">
+                <div class="box_header">
+                    <div class="row">
+                        <div class="col-md-7 col-12">
+                            <div class="mainiconbox"><i class="fa fa-user"></i>
+                            </div>
+                            <h4 class="m-t-0 header-title">
+                                <div class="breadcrumbs ng-scope">
+                                    <ul>
+                                        <!-- <li><a href="index.html">Home</a></li>
+                                        <li><a>Settings</a></li>
+                                        <li><a>User More Details</a></li> -->
+                                    </ul>
+                                    <div style="    color: red;
+                                    font-weight: bold;">Employee ID : {{data.employee_id}}</div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="col-md-5 col-12">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="card-box ">
+                    <div class="col-12 p-t-15">
+                        <form action="edit_user_details_action" method="POST">
+                            {% csrf_token %}
+                            <h4 data-toggle="collapse" href="#basic" class="sub_hdng_edit"><i
+                                        class="fa fa-chevron-down"></i> Basic Detaiils</h4>
+                            <div id="basic" class="panel-collapse collapse show">
+                                <div class="m-t-30 m-b-15 acrdn_panel">
+                                    <div class="row">
+                                        <div class="col-md-6 colp_r_15">
+                                            <div class="row">
+                                                <input type="hidden" name="user_updated_id" value="{{data.id}}">
+
+                                                <div class="col-sm-10 pad5 ">
+                                                    <div class="form-group bmd-form-group required_item">
+                                                        <input type="text" value="{{data.username}}" name="username" class="input form-control getVal" >
+                                                        <label class="inputText"> Username</label>
+                                                    </div>
+                                                </div>
+                                              
+                                                <div class="col-md-3">
+                                                    <div class="user_daterangpickrbox expirationbox m-t-10-imprtnt">
+                    
+                                                        <h3 class="big_title2">Password Option</h3>
+                    
+                                                        <div class="input-daterange" id="date-range">
+                                                            <div class="form-group bmd-form-group m-t-8">
+                                                                <!--                                                        <label class="">Gender</label>-->
+                    
+                                                              
+                                                                    
+                                                                
+                                                                <div class="radio radio-info float_left_radio">
+                                                                    <input type="radio" value="Automatic" id="password_option1" {% if data.password_option == "Automatic" %} checked {% else %} {% endif %}  name="password_option">
+                                                                    <label for="password_option1">Automatic</label>
+                                                                </div>
+                                                                <div class="radio radio-info">
+                                                                    <input type="radio" value="Manual" {% if data.password_option == "Manual" %} checked {% else %} {% endif %} name="password_option" id="password_option2">
+                                                                    <label for="password_option2">Manual </label>
+                                                                </div>
+                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="user_daterangpickrbox expirationbox m-t-10-imprtnt">
+                                                        <h3 class="big_title2">Password </h3>
+                                                    <div class="form-group bmd-form-group required_item">
+                                                        <input type="text" name="password" value="{{data.password}}" class="input form-control getVal" >
+                                                        
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pad5  mt-4">
+                                                    <div class="form-group bmd-form-group required_item">
+                                                        <input type="text" name="employee_branch" value="{{data.employee_branch}}" class="input form-control getVal" >
+                                                        <label class="inputText"> Employee Branch</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 pad5  mt-4">
+                                                    <div class="form-group bmd-form-group required_item">
+                                                        <input type="text" name="employee_department" value="{{data.employee_department}}" class="input form-control getVal" >
+                                                        <label class="inputText"> Employee Department</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pad5  mt-4">
+                                                    <div class="form-group bmd-form-group required_item">
+                                                        <input type="text" name="employee_name" value="{{data.employee_name}}" class="input form-control getVal" >
+                                                        <label class="inputText"> Employee Name</label>
+                                                    </div>
+                                                </div>
+                                             
+
+
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 colp_l_15">
+                                            <div class="row">
+
+                                                <div class="col-sm-12 pad5">
+                                                    <div class="form-group bmd-form-group">
+                                                    <textarea rows="2" name="description"
+                                                              class="form-control input_textaerea tstarea">{{data.description}}</textarea>
+                                                        <label class="inputText">Description</label>
+                                                    </div>
+                                                </div>
+                                
+                                                <div class="col-md-3">
+                                                    <div class="user_daterangpickrbox expirationbox m-t-10-imprtnt">
+                    
+                                                        <h3 class="big_title2">Password Expiration</h3>
+                    
+                                                        <div class="input-daterange" id="date-range">
+                                                            <div class="form-group bmd-form-group m-t-8">
+                                                                <!--                                                        <label class="">Gender</label>-->
+                    
+                                                              
+
+                                                                
+                                                                <div class="radio radio-info float_left_radio">
+                                                                    <input type="radio" value="days"  id="password_expiration_status1" {% if data.password_expiration_status == "days" %} checked {% else %} {% endif %}  name="password_expiration_status">
+                                                                    <label for="password_expiration_status1">Days</label>
+                                                                </div>
+                                                                <div class="radio radio-info">
+                                                                    <input type="radio" value="none" {% if data.password_expiration_status == "none" %} checked {% else %} {% endif %} name="password_expiration_status" id="password_expiration_status2">
+                                                                    <label for="password_expiration_status2">None </label>
+                                                                </div>
+                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="user_daterangpickrbox expirationbox m-t-10-imprtnt">
+                    
+                                                        <h3 class="big_title2">Password validity period</h3>
+                    
+                                                        <div class="input-daterange" id="date-range">
+                                                            <div class="form-group bmd-form-group m-t-8">
+                                                                <!--                                                        <label class="">Gender</label>-->
+                    
+                                                              
+
+                                                                
+                                                              <h1 style="color: #b32d3f;
+                                                              font-size: 15px;
+                                                              font-weight: bold;">{{data.password_effective_from_dt}} To {{data.password_effective_to_dt}}</h1>
+                    
+
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="user_daterangpickrbox expirationbox">
+                                                            <div class="">
+                                                                <h3 class="big_title2">Effective Date</h3>
+                                                            </div>
+                                                            <div class="input-daterange p-t-15" id="date-range">
+                                                                <div class="row">
+                                                                    <div class="col-md-6 pad5">
+                                                                        <div class="input-group bmd-date-group">
+                                                                            <input value="{{data.password_effective_from_dt|safe}}" name="password_effective_from_dt" type="date" class="form-control input"  />
+                                                                            <label class="bmd-label-floating inputText labl_insd">From</label>
+                                                                            <div class="input-group-append">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 pad5 ">
+                                                                        <div class="input-group ">
+                                                                            <input name="password_effective_to_dt" value="{{data.password_effective_to_dt|safe}}" type="date" class="form-control input"  />
+                                                                            <label class="bmd-label-floating inputText labl_insd">To</label>
+                                                                            <div class="input-group-append">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--**************************************************************************-->
+                            <h4 data-toggle="collapse" href="#work" class="sub_hdng_edit"><i class="fa fa-chevron-down"></i>Role Details
+                            
+                            <span>
+
+
+                                <div style="float: right">
+                                <a data-toggle="modal" data-target="#exampleModalCenter1" href="">
+
+                                    <span style="color: white;
+                                    background: #f1556c;
+                                    padding: 9px 9px;"> + Add New Role</span>
+                                </a>
+                                </div>
+                            </span>
+                            
+                            </h4>
+                            <div id="work" class="panel-collapse collapse show ">
+                                <div class="m-t-30 m-b-15 col-12">
+                                    <table id="educationdatatable"
+                                    class="table table-bordered dt-responsive nowrap table-hover"
+                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                 <thead>
+                                 <tr>
+
+                                     <th>Role Name</th>
+                                     <th>description</th>
+                                     <th>
+                                        Start Date
+                                     </th>
+                                     <th>
+                                        End Date
+                                     </th>
+                                     <th>
+                                        Created At
+                                     </th>
+                                     <th>
+                                        Action
+                                     </th>
+                                    
+                                  
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                {% for role in user_role_details %}
+                                 <tr>
+                                    <td>
+                                        {{role.role_id.role_name}}
+                                    </td>
+                                    <td>
+                                        {{role.description}}
+                                    </td>
+                                    <td>
+
+                                        {{role.start_dt}}
+                                    </td>
+                                    <td>
+                                        {{role.end_dt}}
+                                    </td>
+                                    <td>
+                                        {{role.dt}}<br>
+                                        {{role.tm}}
+                                    </td>
+                                    <td>
+                                        <a class="user-role-edit"  href="#" data-update-role-id="{{role.id}}" data-update-role-start-dt="{{role.start_dt|safe}}" data-update-role-end-dt="{{role.end_dt|safe}}" data-update-role-description="{{role.description}}"> <i class="fa fa-pencil"></i> </a>
+                                        <a class="user-role-delete" data-role-id="{{role.id}}" href="#"> <i class="fa fa-trash"></i> </a>
+                                    </td>
+                                    
+                                 </tr>
+                                 {% endfor %}
+                              
+                              
+                           
+                               
+
+                         
+                            
+                               
+                          
+                         
+                         
+                    
+                                 </tbody>
+                             </table>
+                                </div>
+                            </div>
+                          
+                   
+                            <!--*****************************************************-->
+               
+                            <!--*****************************************************-->
+
+                   
+                            <!--*****************************************************-->
+
+                     
+                            <!--*****************************************************-->
+
+                           
+                            <!--*****************************************************-->
+                      
+                            <!--*****************************************************-->
+                  
+                            <!--*****************************************************-->
+                     
+               
+                            <!--*****************************************************-->
+
+                            
+
+                            <button style="    padding: 10px 27px;
+                            margin: 12px 12px;
+                            background: #2b2c42;
+                            color: white;
+                            border: none;
+                            border-radius: 10px;" type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container -->
+</div>
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+     
+ 
+
+       
+
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Update Role Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="update_user_role_permission_action" method="POST">
+            {% csrf_token %}
+        <div class="modal-body">
+            <input type="hidden" id="update_role_id" name="update_role_id">
+            <div class="col-md-12 m-2">
+                <div class="form-group">
+                    <div class="form-group bmd-form-group required_item">
+                        <input name="update_role_start_dt"  id="update_role_start_dt" type="date" class="input form-control">
+                        <label class="inputText openselect2">	Start Date</label>
+                    </div>
+                </div>
+
+                
+            </div>
+
+
+            <div class="col-md-12 m-2">
+                <div class="form-group">
+                    <div class="form-group bmd-form-group required_item">
+                        <input name="update_role_end_dt"  id="update_role_end_dt" type="date" class="input form-control">
+                        <label class="inputText openselect2">	End Date</label>
+                    </div>
+                </div>
+
+                
+            </div>
+
+
+            <div class="col-md-12 m-2">
+                <div class="form-group">
+                    <textarea name="update_role_description" id="update_role_description" rows="1" class="form-control input_textaerea tstarea"></textarea>
+                    <label class="bmd-label-floating inputText">Description</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+        </form>
+
+
+
+      </div>
+    
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="user_role_delete_action" method="POST">
+            {% csrf_token %}
+        <div class="modal-body">
+         <img style="width: 15%;" src="{% static 'delete.gif' %}">
+         <input type="hidden" id="data-role-id" name="role_id">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Delete</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add New Role </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="user_add_new_role_action"  method="POST">
+            {% csrf_token %}
+        <div class="modal-body">
+            <input type="hidden" name="add_role_user_id" value="{{data.id}}">
+            <div class="col-md-12 m-2">
+                <div class="form-group">
+                    <div class="form-group bmd-form-group required_item">
+
+
+                        
+                        <select class="input form-control" name="add_role_id">
+                            {% for role in role_data%}
+                            <option value="{{role.id}}">{{role.role_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label class="inputText openselect2">Select Role</label>
+                    </div>
+                </div>
+
+                
+            </div>
+
+            <div class="col-md-12 m-2">
+                <div class="form-group">
+                    <div class="form-group bmd-form-group required_item">
+                        <input required name="add_role_start_dt"  type="date" class="input form-control">
+                        <label class="inputText openselect2">	Start Date</label>
+                    </div>
+                </div>
+
+                
+            </div>
+
+
+            <div class="col-md-12 m-2">
+                <div class="form-group">
+                    <div class="form-group bmd-form-group required_item">
+                        <input name="add_role_end_dt"  required type="date" class="input form-control">
+                        <label class="inputText openselect2">	End Date</label>
+                    </div>
+                </div>
+
+                
+            </div>
+
+
+            <div class="col-md-12 m-2">
+                <div class="form-group">
+                    <textarea name="add_role_description" required rows="1" class="form-control input_textaerea tstarea"></textarea>
+                    <label class="bmd-label-floating inputText">Description</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save
+      </div>
+      </form>
+    </div>
+  </div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script>
+    $(".user-role-edit").click(function(){
+
+        var update_role_id = $(this).attr("data-update-role-id")
+        var update_role_start_dt = $(this).attr("data-update-role-start-dt")
+        var update_role_end_dt = $(this).attr("data-update-role-end-dt")
+        var update_role_description = $(this).attr("data-update-role-description")
+      
+
+        $("#update_role_id").val(update_role_id)
+        $("#update_role_start_dt").val(update_role_start_dt)
+        $("#update_role_end_dt").val(update_role_end_dt)
+        $("#update_role_description").val(update_role_description)
+
+        
+       
+        $("#exampleModalCenter").modal("show")
+    })
+</script>
+
+<script>
+    $(".user-role-delete").click(function(){
+
+        var id = $(this).attr("data-role-id")
+
+
+
+        $("#data-role-id").val(id)
+       
+        $("#exampleModal1").modal("show")
+    })
+</script>
+
+{% endblock %}

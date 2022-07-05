@@ -1,0 +1,134 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Veuz-HRMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="" name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'hrm/images/fav.png' %}">
+
+
+
+    <link rel="stylesheet" href="{% static 'hrm/css/morris.css' %}">
+    <!-- App css -->
+    <link href="{% static 'hrm/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'hrm/css/icons.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'hrm/css/metismenu.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'hrm/css/style.css' %}" rel="stylesheet" type="text/css" />
+	   <!-- Plugins css -->
+    <link href="{% static 'hrm/css/bootstrap-timepicker.min.css' %}" rel="stylesheet">
+    <link href="{% static 'hrm/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700,800" rel="stylesheet">
+</head>
+<body class="account-pages">
+   <!-- Begin page -->
+   <div class="accountbg" style="background: url('{% static 'hrm/images/lockscreen-bg.jpg' %}');background-size: cover;background-position: center;"></div>
+   <div class="wrapper-page account-page-full">
+      <div class="card" style="        border-top: 11px solid #8169ae;">
+         <div class="card-block">
+            <div class="account-box">
+               <div class="card-box p-4" style="min-height: 100% !important;">
+                  <h2 class="text-uppercase text-center pb-2">
+                     <a href="index.html" class="text-success">
+                     <span><img src="{% static 'hrm/images/logo.png' %}"></span>
+                     </a>
+					   <h5 style="font-size: 14px;
+                       font-weight: bold;
+                       color: #ed1f52;" class="text-center m-b-20">Fill your detail to get in</h5>
+                       
+                  </h2>
+                  <div class="account-form pb-5">
+					 
+                     <form class="" action="login_action"  method="post">
+                        {% csrf_token %}
+                        <div class="form-group row m-b-20">
+                           <div class="col-12">
+                              <div class="feild  groupinput">
+                                 <input type="text" name="uname" class="input" required="">
+                                 <label class="inputText">Username</label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row m-b-20">
+                           <div class="col-12">
+                              <div class="feild groupinput">
+                                 <a href="page-recoverpw.html" class="text-muted forgot">Forgot your password?</a>
+                                 <input type="password" name="passwrd" class="input" required="">
+                                 <label class="inputText">Password</label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row m-b-20">
+                           <div class="col-12">
+                              <div class="checkbox checkbox-custom">
+                                 <input id="remember" type="checkbox" checked="">
+                                 <label for="remember">
+                                 Remember me
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row text-center m-t-10">
+                           <div class="col-12">
+                              <button class="btn btn-block btn-custom waves-effect waves-light" type="submit">Sign In</button>
+                           </div>
+                        </div>
+                      
+                        {% if  message == "error" %}
+
+                  <div style="padding: 7px 12px;">
+                      <span style="    padding: 9px 21px;
+                      color: red;
+                      font-size: 15px;">
+                      
+                     
+                     <center>
+                        These credentials do not match our records.
+                     </center>
+                     </span>
+                  </div>
+              
+                  {% elif message == "login_date_error" %}
+                  <div style="padding: 7px 12px;">
+                     <span style="    padding: 9px 21px;
+                     color: red;
+                     font-size: 15px;">
+                     
+                    
+                    <center>
+                       You cannot login today Try agian on {{login_date}}
+                    </center>
+                    </span>
+                 </div>
+                  {% endif %}
+
+                 {% if messages %}
+
+  {{messages.0}}
+             <br>
+
+                  {% for message in messages %}
+                  <span class="text-danger">{{message}}</span>
+                  {% endfor %}
+                  {% endif %}
+                 
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- jQuery  -->
+
+   
+</body>
+
+</html>

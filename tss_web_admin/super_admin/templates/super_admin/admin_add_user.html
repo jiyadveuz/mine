@@ -1,0 +1,93 @@
+{% extends "super_admin/menu.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <h5>User Creation Form</h5>
+                <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
+            </div>
+            <div class="card-block">
+                <form class="form-material" action="admin_add_user_action" method="post">
+                    {% csrf_token %}
+                    <div class="form-group form-default">
+                        <input required type="text" name="employee_id" class="form-control">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Employee ID</label>
+                    </div>
+                  
+                    <div class="form-group form-default">
+                        <input required type="text" name="name" class="form-control">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Name </label>
+                    </div>
+                    <div class="form-group form-default">
+                        <input required type="text" name="department" class="form-control">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Department</label>
+                    </div>
+                    <div class="form-group form-default">
+                        <input required type="text" name="branch" class="form-control">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Branch</label>
+                    </div>
+                    <div class="form-group form-default">
+                        <input required type="text" name="username" class="form-control">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Username</label>
+                    </div>
+
+
+                    <div class="form-group f">
+
+                        <button type="submit" style="background-color: #448aff;
+                        border-color: #ffffff;
+                        padding: 8px 59px;" class="btn waves-effect waves-light btn-success"><i class="icofont icofont-check-circled"></i>Submit</button>
+                    </div>
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+ 
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    var message = `{{message}}`
+
+   
+    if(message == "username alredy exists" ){
+        Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'username alredy exists!',
+ 
+})
+
+    }
+
+    else if(message == "employee id alredy exists" ){
+        Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'employee id alredy exists!',
+ 
+})
+    }
+
+    else if(message == 'added'){
+        Swal.fire({
+  icon: 'success',
+  title: 'add...',
+  text: 'create new user data successfully',
+ 
+})
+    }
+
+
+</script>
+{% endblock %}

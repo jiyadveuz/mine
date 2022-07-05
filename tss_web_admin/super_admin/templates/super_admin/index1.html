@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <h1>
+      Details   count : <span class="badge" id="notification-badge">{{data_count}}</span>
+    </h1>
+
+
+    <table border="3">
+
+        <tr>
+            <td>
+                Name
+            </td>
+            <td>
+                Message
+            </td>
+        </tr>
+        {% for i in data %}
+
+        <tbody>
+        <tr>
+            <td>{{i.name}}</td>
+            <td>
+                {{i.message}}
+            </td>
+        </tr>
+    </tbody>
+       
+
+        {% endfor %}
+        <tbody id="notifications-dropdown"></tbody>
+    </table>
+    
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const notificationSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/notification/'
+            + roomName
+            + '/'
+        );
+
+        notificationSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            //document.querySelector('#chat-log').value += (data.message + '\n');
+            console.log(data);
+            var message = data['message']
+            var name = data['name']
+            var phone = data['phone']
+            console.log(message)
+            console.log(name)
+            console.log(phone)
+            document.getElementById("notification-badge").innerHTML = parseInt(document.getElementById("notification-badge").innerHTML) + 1;
+            document.getElementById("notifications-dropdown").innerHTML = "<tr><td>"+name+"</td><td>"+message+"</td></tr>"+ document.getElementById("notifications-dropdown").innerHTML
+           
+        }; 
+
+        notificationSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+      
+
+       
+    </script>
+
+    {% block body %} {% endblock %}
+</body>
+</html>

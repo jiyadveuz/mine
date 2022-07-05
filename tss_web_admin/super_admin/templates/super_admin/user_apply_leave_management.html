@@ -1,0 +1,283 @@
+{% extends "super_admin/user_menu.html" %}
+
+{% load static %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <!-- Basic Form Inputs card start -->
+
+        <form action="user_apply_leave_action" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+        <div class="card">
+            <div class="card-header">
+                <h5>User Leave Application Form</h5>
+            
+            </div>
+            <div class="card-block">
+            
+               
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Leave Type</label>
+                        <div class="col-sm-10">
+                            <select style="display: block;
+                            width: 100%;
+                            padding: 0.375rem 0.75rem;
+                            font-size: 1rem;
+                            line-height: 1.5;
+                            color: #495057;
+                            background-color: #fff;
+                            background-clip: padding-box;
+                            border: 1px solid #ced4da;
+                            border-radius: 0.25rem;
+                            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" name="leave_type" class="form-control country" >
+                                <option>Select Leave Type</option>
+                                <option value="Paid Leave">Paid Leave</option>
+                                <option value="Unpaid">Unpaid</option>
+                                <option value="Annual Vaction">Annual Vaction</option>
+                              </select>
+                         
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">From Date</label>
+                        <div class="col-sm-10">
+                            <input name="from_dt" required type="date" id="from_dt_change" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">To Date</label>
+                        <div class="col-sm-10">
+                            <input type="date"  required class="form-control " id="to_dt_change" name="to_dt" placeholder="Type your title in Placeholder">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Total Days</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="total_days" readonly class="form-control"  id="total_days">
+                        </div>
+                    </div>
+                  
+                  
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Available Leave</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly name="available_leave" class="form-control" placeholder="10">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Reason</label>
+                        <div class="col-sm-10">
+                            <textarea rows="5" required cols="5" name="reason" class="form-control" placeholder="Reason"></textarea>
+                        </div>
+                    </div>
+             
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Attachment</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="attachment" class="form-control form-control-round" placeholder=".form-control-round">
+                        </div>
+                    </div>
+              
+               
+                  
+              
+                  
+             
+         
+            
+            </div>
+
+
+            <div id="annual_vaction" style="display:none">
+            <div class="card-header" style="background: #d5d3d4;">
+                <h5>Annual Vaction </h5>
+            
+            </div>
+            <div class="card-block">
+            
+               
+              
+
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Contact No During Leave (Country Code)</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="annual_contact_no" class="form-control">
+                        </div>
+                    </div>
+                   
+                  
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Name Of Replacer</label>
+                        <div class="col-sm-10">
+                            <input name="name_of_replacer" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Tiket Entitled</label>
+                        <div class="col-sm-10">
+                            <input type="radio" name="tiket_entitled" > YES    &nbsp; &nbsp; <input name="tiket_entitled" type="radio" > NO
+                        </div>
+                    </div>
+             
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Destination Airport With Airport Code</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="destination" class="form-control">
+                        </div>
+                    </div>
+               
+                  
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Date Of Onward Journey</label>
+                        <div class="col-sm-10">
+                            <input type="date" name="onward_journey" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Date Of Return  Journey</label>
+                        <div class="col-sm-10">
+                            <input type="date" name="return_journey" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Family Reentry Request</label>
+                        <div class="col-sm-10">
+                            <input type="radio" name="family_entry"> YES    &nbsp; &nbsp; <input type="radio" name="family_entry"> NO
+                        </div>
+                    </div>
+                  
+             
+         
+            
+            </div>
+            </div>
+
+            <div class="form-group " style="margin: 10px 27px;">
+
+                <button type="submit" style="background-color: #448aff;
+                border-color: #ffffff;
+                padding: 8px 59px;" class="btn waves-effect waves-light btn-success"><i class="icofont icofont-check-circled"></i>APPLY</button>
+            </div>
+
+        </div>
+        </form>
+        <!-- Basic Form Inputs card end -->
+    </div>
+    
+
+ 
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+
+
+</script>
+<script>  
+    $(document).ready (function () {  
+        $("select.country").change (function () {  
+            var selectedCountry = $(this).children("option:selected").val();  
+            
+            if(selectedCountry == "Annual Vaction"){
+                $("#annual_vaction").show();
+            }
+            else{
+                $("#annual_vaction").hide();
+            }
+            
+        });  
+    });  
+    </script>  
+
+    <script>
+
+
+
+$("#to_dt_change").on("change",function(){
+    
+        var selected = $(this).val();
+        var date = new Date($('#from_dt_change').val());
+       
+
+        
+        var start = $(this).val();
+        var end = $('#from_dt_change').val();
+        var start = new Date(start);
+    end   = new Date(end);
+    diff  = new Date(start - end);
+    days  = diff/1000/60/60/24;
+    days = days+1
+    //    alert(days)
+       $("#total_days").val(days)
+       
+    });
+    </script>
+
+    <script>
+        $(function(){
+    var dtToday = new Date();
+    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var minDate= year + '-' + month + '-' + day;
+    
+    $('#to_dt_change').attr('min', minDate);
+
+    $('#from_dt_change').attr('min', minDate);
+});
+    </script>
+
+    <script>
+
+$("#from_dt_change").on("change",function(){
+    var dt = $('#from_dt_change').val();
+    // alert(dt)
+    var dtToday = new Date(dt);
+    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var minDate= year + '-' + month + '-' + day;
+    
+    $('#to_dt_change').attr('min', minDate);
+
+
+});
+    </script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    var message = `{{message}}`
+   if(message == "success"){
+    Swal.fire({
+  icon: 'success',
+  title: 'add...',
+  text: 'create new user data successfully',
+ 
+})
+   }
+</script>
+{% endblock %}

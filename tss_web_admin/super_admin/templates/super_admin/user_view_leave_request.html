@@ -1,0 +1,83 @@
+{% extends "super_admin/user_menu.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<div class="container-fluid mt-4">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Leave Type</th>
+                <th>From Date
+                </th>
+                <th>To Date</th>
+                <th>Total Days</th>
+                <th>Crated At</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in data %}
+            <tr>
+                <td>
+
+                    {{user.employee_id}}
+                </td>
+                <td>
+
+                    {{user.name}}
+                </td>
+                <td>
+
+                    {{user.department}}
+                </td>
+                <td>
+                    {{user.branch}}
+                </td>
+                <td>
+
+                    {{user.username}}
+                </td>
+                <td style="background: #446fb2;
+                color: white;">
+
+                    {{user.password}}
+                </td>
+                <td>
+                    {{user.dt}} <br>
+                    {{user.tm}}
+                </td>
+                <td>
+                    <a class="delete-btn" data-id="{{user.id}}" href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+                <td>
+                    <a class="edit-btn" data-id="{{user.id}}" data-employee-id="{{user.employee_id}}" data-name="{{user.name}}" data-department="{{user.department}}" data-branch="{{user.branch}}" data-username="{{user.username}}" data-password="{{user.password}}"  href="#"><i class="fas fa-edit"></i></a>
+                </td>
+                <td>
+                    {% if user.status == "True" %}
+                    <a href="#" class="inactive-btn" data-id="{{user.id}}"><i class="fas fa-toggle-on"></i></a>
+                    {% else %}
+                    <a href="#" class="active-btn" data-id="{{user.id}}">
+                    <i class="fa fa-toggle-off" aria-hidden="true"></i>
+                    </a>
+
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+    
+        </tbody>
+    
+    </table>
+</div>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+    $('#example').DataTable();
+});
+</script>
+{% endblock %}

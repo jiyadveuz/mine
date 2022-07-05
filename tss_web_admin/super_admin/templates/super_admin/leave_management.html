@@ -1,0 +1,1045 @@
+{% extends "super_admin/menu.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="box_header">
+                    <div class="row">
+                        <div class="col-md-7 col-12">
+                            <div class="mainiconbox"><i class="fa fa-user"></i>
+                            </div>
+                            <h4 class="m-t-0 header-title">
+                                <div class="breadcrumbs ng-scope">
+                                    <ul>
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a>Leave Management </a></li>
+                                        <!-- <li><a>User  Settings</a></li> -->
+                                    </ul>
+                                    <div>Leave Settings</div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="col-md-5 col-12">
+                            <div class="pull-right p-t-10">
+
+                                <a data-toggle="modal" class="btn btn-info newbtn_crete" data-target="#newuser"> <i class="mdi mdi-plus-circle-outline"></i> APPLY NEW LEAVE
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-box ">
+                    <div class="table_rspnsv" id="tableview">
+                        <div class="row2 tbl_stngs commen_table">
+
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap table-hover" style="width: 100%;">
+
+                                <thead>
+                                <tr>
+                                    <th>Leave Type</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
+                                    <th >Total Days</th>
+                                 
+                                    <th>Created At</th>
+                                    <th>
+                                        state
+                                    </th>
+                                   
+                                    
+                                  
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for history in leave_history_response %}
+                                <tr>
+                                    <td><a class="label-default" href="#/">{{history.holiday_status_id.1}}</a></td>
+                                   <td>
+                                    {{history.date_from}}
+                                   </td>
+                                   <td>
+                                    {{history.date_to}}
+                                   </td>
+                                   <td>
+                                    {{history.number_of_days}}
+                                   </td>
+                                 
+                                   <td>
+                                    {{history.create_date}}
+                                   </td>
+                                   <td style="    background: #8891ff;
+                                   color: white;"> 
+                                    {{history.state}}
+                                   </td>
+
+                                </tr>
+                                {% endfor %}
+                           
+                       
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container -->
+</div>
+</div>
+</div>
+
+<!-- <div class="modal modal-right fade" id="newuser" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-full" > -->
+        <form action="user_leave_apply_action" method="POST" enctype="multipart/form-data" >
+<div id="newuser" class="modal modal-right fade" role="dialog" data-backdrop="static"  >
+<div class="modal-dialog modal-full">
+<!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Leave Application Form</h4>
+        <div class="pull-right"> <a class="btn enlarge_modal" data-toggle="tooltip" data-original-title="Fullscreen"><i
+                        class="mdi mdi-crop-free" aria-hidden="true"></i> </a>
+            <a class="btn dslarge_modal" data-toggle="tooltip" data-original-title="Back"><i
+                        class="mdi mdi-arrow-expand-all" aria-hidden="true"></i> </a>
+        </div>
+    </div>
+    
+        
+        {% csrf_token %}
+       
+    <div class="modal-body">
+        <input type="hidden" name="leave_type_nm" id="leave_type_nm">
+      
+            <div class="form_enterbox col-md-12">
+
+
+
+
+
+
+                <div class="row mt-2">
+
+
+
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                    <input style="    background: #2b2c422b;
+                                    color: black;" readonly value="{{emp_name}}" name="employee_name" type="text" class="input form-control getVal">
+                                    <label class="inputText input-has-value">Employee Name</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 pad5 ">
+                                <div class="form-group bmd-form-group">
+                                    <input style="    background: #2b2c422b;
+                                    color: black;" readonly value="{{emp_id}}" name="employee_number" type="text" class="input form-control">
+                                    <label class="inputText">Employee Number</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 pad5 ">
+                                <div class="form-group bmd-form-group">
+                                    <select class="input form-control" name="employee_leave_type" id="emp_name">
+                                        <option value="0" selected="selected">Select Leave Type</option>
+
+                                        {% for leave_type in leave_type_response %}
+    
+                                        <option value="{{leave_type.id}}">{{leave_type.name}}</option>
+    
+                                        {% endfor %}
+                                    </select>
+                                    <label class="inputText">Leave Type</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 pad5 " style="display:none" id="leave_avaiable_id">
+                                <div class="form-group bmd-form-group">
+                                    <input readonly id="available_leave" name="employee_available_leave" type="text" class="input form-control">
+                                    <label class="inputText">Leave Available</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-9 pad5 ">
+                                <div class="form-group bmd-form-group">
+                                    
+                                    <div class="form-group"> <select name="employee_leave_replacer" class="form-control select2 " >
+                                        <option selected="selected" value="0">Select Employee Name</option>
+                                        {% for i in replacer_response  %}
+                                       
+                                        <option value="{{i.id}}" >{{i.name}}</option>
+                                      
+                                        {% endfor %}
+                                     
+                                    </select> </div> 
+                                    <label class="inputText">Replace By</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 pad5 ">
+                                <div class="form-group bmd-form-group">
+                                    <input name="employee_alternative_contcat_no" type="number"  class="input form-control">
+                                    <label class="inputText">Emergency Contact Number During Leave</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-sm-12 pad5 ">
+                                    <div class="form-group bmd-form-group">
+                                        <input style="    background: #2b2c422b;
+                                        color: black;" readonly value="{{emp_email}}" name="employee_email" type="text" class="input form-control getVal">
+                                        <label class="inputText input-has-value">Email</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group bmd-form-group">
+                                            <div class="input-group bmd-date-group">
+                                                <input type="text" name="employee_leave_from_date" required class="form-control input" id="startDate" />
+                                                <label class="bmd-label-floating inputText labl_insd">From</label>
+                                                <div class="input-group-append"> <span class="input-group-text "><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="half_day1"  class="col-md-12" style="    margin: -28px 0px;
+                                    padding: 16p 18px;display: none;
+                                ">
+                                      <input name="request_unit_half" id="myCheckbox" type="checkbox" value="Half day" /> <span style="font-size: 12px;
+                                      font-weight: bold;">Half Day</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="form-group bmd-form-group" id="to_date1">
+                                    <div class="input-group bmd-date-group">
+                                        <input type="text" name="employee_leave_to_date"  class="form-control input" id="endDate" />
+                                        <label class="bmd-label-floating inputText labl_insd">To</label>
+                                        <div class="input-group-append"> <span class="input-group-text "><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="to_date2" class="form-group bmd-form-group" style="display: none">
+                                    <div class="input-group bmd-date-group">
+                                        <select name="request_date_from_period"  class="form-control  " >
+                                            <option value="am"  >Morning</option>
+                                            <option   value="pm">Afternoon</option>
+                                           
+                                           
+                                          
+                                          
+                                           
+                                         
+                                        </select>
+
+                                        <label class="bmd-label-floating inputText labl_insd"> </label>
+                                        <div class="input-group-append"> <span class="input-group-text "><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-md-12 mt-4 ">
+                                <div class="form-group bmd-form-group">
+                                    <input style="    background: #2b2c422b;
+                                    color: black;" type="text" name="employee_total_days" id="t1" class="input form-control">
+                                    <label class="inputText">Total Days</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12  ">
+                               
+                                    <div class="form-group bmd-form-group">
+    
+                                        <textarea name="employee_leave_reason" class="form-control input_textaerea"></textarea>
+                                        <label class="inputText">Reason for Leave/Comments</label>
+    
+                                    </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                 
+                
+                </div>
+               
+
+             
+
+                <div class="row">
+                    <div class="col-md-6 colp_r_15">
+                        <div class="row">
+                         
+                            <style>
+                                .select2-results{
+                                    display: block!important;
+                                }
+                            </style>
+                         
+                        </div>
+                    </div>
+                
+                </div>
+
+     
+                <div class="row">
+                    <div class="col-12 m-t-10">
+                        <h4 class="sub_hdng_edit" style="background-color: #423d5891!important">Attachment </h4>
+                    </div>
+
+                    <div class="col-md-12 pad0 ">
+                        <div class="table_createNewBtn"><a style="color: white"  href="#" class="add_file_action"> + Add File</a></div>
+                  
+                    </div>
+
+
+
+                    <div id="add_file1" style="display: none;width:300px;">
+                        <div class="row">
+                            <div class="col-md-12 colp_r_15">
+                                <div class="col-lg-12 col-md-12 col-sm-12 resumeFileField">
+                                    <div class="form-group">
+                                        <div class="file-upload">
+
+                                            <div class="image-upload-wrap">
+                                                <input class="file-upload-input" id="f123" name="employee_attached_file" type='file' onchange="readURL(this);" accept="image/*" />
+                                                <div class="drag-text">
+                                                    <h3>Drag and drop a file or select File</h3>
+                                                </div>
+                                            </div>
+                                            <div class="file-upload-content">
+                                                <img class="file-upload-image" src="#" alt="your image" />
+                                                <div class="image-title-wrap">
+                                                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+       
+         
+      
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info" >Submit</button>
+    </div>
+    
+
+</div>
+</div>
+</div>
+
+
+</form>
+
+
+
+
+<script src="{% static 'adminnew/js/custome.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'adminnew/js/metisMenu.min.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.slimscroll.js' %}"></script>
+<script src="{% static 'adminnew/js/moment.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap-timepicker.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap-datetimepicker.min.js' %}"></script>
+<!--<script src="js/moment.js"></script>-->
+
+<script src="{% static 'adminnew/js/jquery.core.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.app.js' %}"></script>
+
+
+<script>
+$(window).scroll(function () {
+var scroll = $(window).scrollTop();
+if (scroll >= 0) {
+    $("html").addClass("modal-open2");
+}
+});
+</script>
+<script>
+$(document).ready(function() {
+// Check if body height is higher than window height :)
+if ($("body").height() > $(window).height()) {
+    // alert('asda')
+    $('html').addClass('modal-open2');
+}
+});
+</script>
+
+
+
+<script>
+let eleBtnStart = document.querySelector("#btnStart");
+let eleBtnStop = document.querySelector("#btnStop");
+let eleTimer = document.querySelector("#divTimer");
+
+let timeTicker = (() => {
+var hours = minutes = seconds = 0;
+var timerTick;
+return {
+    start : () => {
+        if(!timerTick) {
+            timerTick = setInterval(() => {
+                seconds++;
+                if(seconds == 60) {
+                    minutes += 1;
+                    seconds = 0;
+                    if(minutes == 60) {
+                        hours += 1;
+                        minutes = 0;
+                    }
+                }
+                eleTimer.innerHTML = `
+${hours.toString().length == 1 ? "0" + hours : hours}
+: ${minutes.toString().length == 1 ? "0" + minutes:minutes} Hrs`;
+            },25);
+        }
+    },
+    stop : () => {
+        if(timerTick) {
+            clearInterval(timerTick);
+            timerTick = false;
+        }
+    },
+    reset : () => {
+        seconds = minutes = hours = 0;
+        clearInterval(timerTick);
+        timerTick = false;
+        eleTimer.innerHTML = `0${hours}:0${minutes}  Hrs`;
+    }
+}
+})();
+eleBtnStart.addEventListener('click', () => {
+timeTicker.start();
+});
+eleBtnStop.addEventListener('click', () => {
+timeTicker.stop();
+});
+
+$('#btnStart').click(function (){
+$(this).closest('.timer').addClass('timer_actv')
+});
+$('#btnStop').click(function (){
+$(this).closest('.timer').removeClass('timer_actv')
+});
+
+$('.timerbtn_start').click(function (){
+$(this).addClass('disnone_timer')
+$(this).siblings('.timerbtn').addClass('timerbtn_stop');
+$(this).parent().siblings('.divTimer').addClass('divTimer_dsplay')
+
+});
+$('.timerbtn_stop').click(function (){
+$(this).removeClass('timerbtn_stop')
+$(this).siblings('.timerbtn').removeClass('disnone_timer');
+$(this).parent().siblings('.divTimer').removeClass('divTimer_dsplay')
+});
+
+
+</script>
+<script>
+$(document).ready(function () {
+$(window).click(function() {
+    var scroll = $(window).scrollTop();
+    if (scroll >= 0) {
+        $("#wrapper").addClass("modal-open2");
+    }
+});
+});
+</script>
+<script src="{% static 'adminnew/js/jquery.min.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.core.js'  %}"></script>
+<script src="{% static 'adminnew/js/jquery.app.js' %}"></script>
+<!-- App js -->
+<script src="{% static 'adminnew/js/select2.full.js' %}"></script>
+<script src="{% static 'adminnew/js/select2-custome.js' %}"></script>
+
+
+<script src="{% static 'adminnew/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'adminnew/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+// Default Datatable
+$('#datatable').DataTable();
+$('#responsive-datatable').DataTable();
+
+$('#datetimepickereffcet-start').datetimepicker({
+    format: 'DD-MM-YYYY'
+});
+$('#datetimepickereffcet-end').datetimepicker({
+    format: 'DD-MM-YYYY',
+    useCurrent: false //Important! See issue #1075
+});
+$("#datetimepickereffcet-start").on("dp.change", function(e) {
+    $('#datetimepickereffcet-end').data("DateTimePicker").minDate(e.date);
+});
+$("#datetimepickereffcet-end").on("dp.change", function(e) {
+    $('#datetimepickereffcet-start').data("DateTimePicker").maxDate(e.date);
+});
+
+$('#datetimepicker-role-start').datetimepicker({
+    format: 'DD-MM-YYYY'
+});
+$('#datetimepicker-role-end').datetimepicker({
+    format: 'DD-MM-YYYY',
+    useCurrent: false //Important! See issue #1075
+});
+$("#datetimepicker-role-start").on("dp.change", function(e) {
+    $('#datetimepicker-role-end').data("DateTimePicker").minDate(e.date);
+});
+$("#datetimepicker-role-end").on("dp.change", function(e) {
+    $('#datetimepicker-role-start').data("DateTimePicker").maxDate(e.date);
+});
+
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+$(".appnd_user_btn").click(function() {
+
+
+    $(".apenduser").append("<tr>\n" +
+        "                                    <td class=\"th_btnpand\">\n" +
+        "                                        <div class=\"appnd_user_minus_btn appnd_minus_btn\">-</div>\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_role\">\n" +
+        "                                        <select name=\"role_id[]\" class=\"form-control\">\n" +
+        "                                            {% for role in  role_data %}\n" +
+        "                                           <option value=\"{{role.id}}\">{{role.role_name}}</option>\n" +
+        "                                           {% endfor %}\n" +
+        "                                        </select>\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_decrptn\">\n" +
+        "                                        <input name=\"role_description[]\" class=\"form-control\">\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_strtdate\">\n" +
+        "                                        <div class=\"input-group date\">\n" +
+        "                                            <input name=\"role_start_dt[]\" type=\"date\" class=\"input form-control\" id=\"datetimepicker\"> \n" +
+        "                                        </div>\n" +
+        "                                    </td>\n" +
+        "                                    <td class=\"th_user_enddate\">\n" +
+        "                                        <div class=\"input-group date\">\n" +
+        "                                            <input name=\"role_end_dt[]\" type=\"date\" class=\"input form-control\" id=\"datetimepicker\"> \n" +
+        "                                        </div>\n" +
+        "                                    </td>\n" +
+        "                                </tr>");
+    $(".appnd_user_minus_btn").click(function() {
+        $(this).parent().parent().remove();
+    });
+});
+});
+</script>
+
+
+<script>
+
+    $("#passwd_day_btn").click(function(){
+        document.getElementById("password_effective_date").style = "block"
+    
+    })
+
+    $("#passwd_no_expire1").click(function(){    
+
+        $("#password_effective_date").hide();
+     
+        document.getElementById("password_effective_date").style = "none"
+    })
+</script>
+
+
+<script>
+
+    $("#manually").click(function(){
+        $("#password-div").show();
+    })
+</script>
+<script>
+    $("#automatically").click(function(){
+        $("#password-div").hide();
+    })
+</script>
+
+<script>
+    
+    $("#emp_name").change (function () {  
+       
+        var selectedemploye_name = $(this).children("option:selected").val();  
+        // alert(selectedemploye_name)
+
+        // if(selectedemploye_name == "Annual Vacation"){
+            
+
+        //     $("#annual_leave_div").show();
+        // }
+        // else{
+        //     $("#annual_leave_div").hide();
+        // }
+
+
+
+        $.ajax({
+            url: 'get_total_available_leave_count',
+            // datatype: 'json',
+            data: {
+                'leave_type': selectedemploye_name       
+            },
+            type: 'GET',
+            success: function (data) {  
+
+                var response_message = data['respose_status']
+
+                var half_day_status = data['half_day_status']
+                var requires_allocation = data['requires_allocation']
+               
+                if(requires_allocation == "yes"){
+                    $("#leave_avaiable_id").show()
+
+                }
+                else{
+                    $("#leave_avaiable_id").hide()
+                }
+             
+                if(half_day_status == "half_day"){
+                    $("#half_day1").show();
+                }
+                else{
+                    $("#half_day1").hide();
+                }
+
+               
+                if(response_message == "success"){
+
+                    var annual_status = data['annual_status']
+                    
+                    if(annual_status == true){
+                        // $("#annual_leave_div").show();
+                    }
+                    else{
+                        // $("#annual_leave_div").hide();
+                    }
+                    $("#leave_type_nm").val(data['leave_type_name'])
+                    $("#available_leave").val(data['total_available_leave'])
+                }
+                else{
+                    $("#annual_leave_div").hide();
+                    $("#available_leave").val(0)
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'The chosen leave option is not available !',
+ 
+                    })
+                }
+
+               
+               
+              
+
+          
+                
+            }
+            
+        });
+       
+        
+       
+    })
+</script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+var message = `{{message}}`
+
+
+
+
+if(message == "added"){
+
+    Swal.fire({
+  icon: 'success',
+  title: 'add...',
+  text: 'create new user data successfully',
+ 
+})
+}
+
+else if(message == "already_exists"){
+    Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'User  already exists!',
+ 
+})
+}
+
+</script>
+
+<script>
+
+
+
+$("#to_dt_change").on("change",function(){
+    
+    var selected = $(this).val();
+    var date = new Date($('#from_dt_change').val());
+   
+
+    
+    var start = $(this).val();
+    var end = $('#from_dt_change').val();
+
+    var start = new Date(start);
+end   = new Date(end);
+diff  = new Date(start - end);
+days  = diff/1000/60/60/24;
+days = days+1
+//    alert(days)
+   $("#total_days").val(days)
+   
+});
+</script>
+
+<script>
+    $(function(){
+var dtToday = new Date();
+
+var month = dtToday.getMonth() + 1;
+var day = dtToday.getDate();
+var year = dtToday.getFullYear();
+if(month < 10)
+    month = '0' + month.toString();
+if(day < 10)
+    day = '0' + day.toString();
+
+var minDate= year + '-' + month + '-' + day;
+
+$('#to_dt_change').attr('min', minDate);
+
+$('#from_dt_change').attr('min', minDate);
+});
+</script>
+
+
+<script>
+
+    $("#from_dt_change").on("change",function(){
+        var dt = $('#from_dt_change').val();
+        // alert(dt)
+        var dtToday = new Date(dt);
+        
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+            day = '0' + day.toString();
+        
+        var minDate= year + '-' + month + '-' + day;
+        
+        $('#to_dt_change').attr('min', minDate);
+    
+    
+    });
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(window).scroll(function () {
+        var scroll = $(window).scrollTop();
+        if (scroll >= 0) {
+            $("html").addClass("modal-open2");
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Check if body height is higher than window height :)
+        if ($("body").height() > $(window).height()) {
+            // alert('asda')
+            $('html').addClass('modal-open2');
+        }
+    });
+</script>
+
+
+
+<script>
+    let eleBtnStart = document.querySelector("#btnStart");
+    let eleBtnStop = document.querySelector("#btnStop");
+    let eleTimer = document.querySelector("#divTimer");
+
+    let timeTicker = (() => {
+        var hours = minutes = seconds = 0;
+        var timerTick;
+        return {
+            start : () => {
+                if(!timerTick) {
+                    timerTick = setInterval(() => {
+                        seconds++;
+                        if(seconds == 60) {
+                            minutes += 1;
+                            seconds = 0;
+                            if(minutes == 60) {
+                                hours += 1;
+                                minutes = 0;
+                            }
+                        }
+                        eleTimer.innerHTML = `
+${hours.toString().length == 1 ? "0" + hours : hours}
+: ${minutes.toString().length == 1 ? "0" + minutes:minutes} Hrs`;
+                    },25);
+                }
+            },
+            stop : () => {
+                if(timerTick) {
+                    clearInterval(timerTick);
+                    timerTick = false;
+                }
+            },
+            reset : () => {
+                seconds = minutes = hours = 0;
+                clearInterval(timerTick);
+                timerTick = false;
+                eleTimer.innerHTML = `0${hours}:0${minutes}  Hrs`;
+            }
+        }
+    })();
+ eleBtnStart.addEventListener('click', () => {
+        timeTicker.start();
+    });
+    eleBtnStop.addEventListener('click', () => {
+        timeTicker.stop();
+    });
+
+    $('#btnStart').click(function (){
+        $(this).closest('.timer').addClass('timer_actv')
+    });
+    $('#btnStop').click(function (){
+        $(this).closest('.timer').removeClass('timer_actv')
+    });
+
+    $('.timerbtn_start').click(function (){
+        $(this).addClass('disnone_timer')
+        $(this).siblings('.timerbtn').addClass('timerbtn_stop');
+        $(this).parent().siblings('.divTimer').addClass('divTimer_dsplay')
+
+    });
+    $('.timerbtn_stop').click(function (){
+        $(this).removeClass('timerbtn_stop')
+        $(this).siblings('.timerbtn').removeClass('disnone_timer');
+        $(this).parent().siblings('.divTimer').removeClass('divTimer_dsplay')
+    });
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $(window).click(function() {
+            var scroll = $(window).scrollTop();
+            if (scroll >= 0) {
+                $("#wrapper").addClass("modal-open2");
+            }
+        });
+    });
+</script>
+
+<script src="{% static 'adminnew/js/jquery.core.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.app.js' %}"></script>
+<!-- App js -->
+<script src="{% static 'adminnew/js/select2.full.js' %}"></script>
+<script src="{% static 'adminnew/js/select2-custome.js' %}"></script>
+
+
+<script src="{% static 'adminnew/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'adminnew/js/dataTables.bootstrap4.min.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Default Datatable
+        $('#datatable').DataTable();
+        $('#entitlementsheet').DataTable();
+        $('#supprtDocmnt').DataTable();
+        $('#responsive-datatable').DataTable();
+        $('#startDate').datetimepicker({
+            
+            format: 'YYYY-MM-DD'
+        });
+        $('#endDate').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: false //Important! See issue #1075
+        });
+        $("#startDate").on("dp.change", function(e) {
+            $('#endDate').data("DateTimePicker").minDate(e.date);
+        });
+        $("#endDate").on("dp.change", function(e) {
+            $('#startDate').data("DateTimePicker").maxDate(e.date);
+
+            var start = $(this).val();
+          
+            var end = $('#startDate').val();
+          
+          
+            
+            //    alert(days)
+
+            var dt1 = new Date(end);
+            var dt2 = new Date(start);
+ 
+            var time_difference = dt2.getTime() - dt1.getTime();
+            var result = time_difference / (1000 * 60 * 60 * 24);
+           
+            $("#t1").val(result+1)
+
+            
+        });
+    });
+</script>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('.image-upload-wrap').hide();
+
+                $('.file-upload-image').attr('src', e.target.result);
+                $('.file-upload-content').show();
+
+                $('.image-title').html(input.files[0].name);
+            };
+
+
+            // alert(document.getElementById("f123").value)
+            $("#f12").val(document.getElementById("f123").value)
+            reader.readAsDataURL(input.files[0]);
+
+        } else {
+            removeUpload();
+        }
+    }
+
+    function removeUpload() {
+        $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+        $('.file-upload-content').hide();
+        $('.image-upload-wrap').show();
+    }
+    $('.image-upload-wrap').bind('dragover', function() {
+        $('.image-upload-wrap').addClass('image-dropping');
+    });
+    $('.image-upload-wrap').bind('dragleave', function() {
+        $('.image-upload-wrap').removeClass('image-dropping');
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    $(".add_file_action").click(function(){
+
+        $("#add_file1").show();
+    })
+</script>
+
+{% if messages %}
+   <script>
+    {% for message in messages %}
+        message1 = "{{message}}"
+       
+
+      
+       
+        if(message1 == "error"){
+
+            Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: "{{ message }}",
+ 
+})
+
+
+
+        }
+        else{
+
+            Swal.fire(
+				  '',
+				  '{{ message }}',
+				  '{{message.tags}}'
+				)
+      
+        }
+    {% endfor %}
+   </script>
+{% endif %}
+
+<script>
+    const checkbox = document.getElementById('myCheckbox')
+
+checkbox.addEventListener('change', (event) => {
+  if (event.currentTarget.checked) {
+    
+    $("#t1").val(0.5)
+    $("#to_date2").show();
+    $("#to_date1").hide();
+  
+  } else {
+    // alert('not checked');
+    $("#to_date2").hide()
+    $("#to_date1").show()
+    $("#t1").val('')
+    
+  }
+})
+</script>
+
+<script>
+
+</script>
+        
+{% endblock %}

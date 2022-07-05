@@ -1,0 +1,586 @@
+<!doctype html>
+{% load static %}
+{% load navbarpermission %}
+{% load notification %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Veuz-HRMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="" name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'adminnew/images/fav.png'%}">
+
+
+
+    <link rel="stylesheet" href="{% static 'adminnew/css/morris.css' %}">
+    <!-- App css -->
+    <link href="{% static 'adminnew/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'adminnew/css/icons.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'adminnew/css/metismenu.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'adminnew/css/style.css' %}" rel="stylesheet" type="text/css" />
+	   <!-- Plugins css -->
+    <link href="{% static 'adminnew/css/bootstrap-timepicker.min.css' %}" rel="stylesheet">
+    <link href="{% static 'adminnew/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700,800" rel="stylesheet">
+</head>
+<body class="">
+<!-- Begin page -->
+<div id="wrapper">
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu">
+        <div class="slimscroll-menu" id="remove-scroll">
+            <!-- LOGO -->
+
+            <div class="topbar-left">
+    <a href="admin_dashboard" class="logo">
+        <i>
+            <img src="{% static 'adminnew/images/fav.png' %}" alt="">
+        </i>
+    </a>
+</div>
+
+<div id="sidebar-menu" class="sidaber_menu">
+    <ul class="" id="side-menu">
+        <li>
+
+            <p class="splnav"> <i class="fa fa-home"></i>
+                <a> Home</a>
+            </p>
+        </li>
+        <li>
+            <p class="splnav"> <i class="fa fa-user"></i>
+                <a> Self Service </a>
+            </p>
+
+            <div class="sidebar_sub_division">
+                <ul class="nav_second_sub">
+                    <li><a href="#/">Profile</a>
+                    </li>
+                    <li><a href="leav.html">Absence Management</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </li>
+        {% if request.user.id|emp_url_perm_check:"Leave Management" %}
+        <li>
+            <a href="leave_management"> <i class="fa fa-calendar"></i>
+                <p>Leave <br></p>
+            </a>
+        </li>
+
+        {% endif %}
+        {% if request.user.id|emp_url_perm_check:"Employee" %}
+        <li>
+            <a href="employee_master"> <i class="fa fa-user-circle"></i>
+                <p>Employee <br>Master</p>
+            </a>
+        </li>
+
+        {% endif  %}
+
+        {% if request.user.id|emp_url_perm_check:"Petty Cash" %}
+
+        <li>
+            <a href="petty_cash_management"> <i class="fa fa-money"></i>
+                <p>Petty Cash  <br></p>
+            </a>
+        </li>
+
+        {% endif %}
+        <li>
+            <p class="splnav"> <i class="fa fa-clock-o"></i>
+                <a> Time <br>Tracker </a>
+            </p>
+            <div class="sidebar_sub_division">
+                <ul class="nav_second_sub">
+
+                    <li class="crnt"><a data-toggle="collapse" href="#Time-Logs" aria-controls="collapseExample"> Time Logs </a>  </li>
+                    <ul class="nav_second_sub collapse submnu" id="Time-Logs">
+                        <li><a href="time-list-view.html">List View </a> </li>
+                        <li><a href="calander.html">Calendar View</a> </li>
+                    </ul>
+                    <li class="crnt"><a data-toggle="collapse" href="#Projects" aria-controls="collapseExample"> Projects / Jobs </a>  </li>
+                    <ul class="nav_second_sub collapse submnu" id="Projects">
+                        <li><a href="job.html">Jobs </a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="#/">Clients</a></li>
+                    </ul>
+                    <li class="crnt"><a data-toggle="collapse" href="#General-Settings" aria-controls="collapseExample"> Settings </a>  </li>
+                    <ul class="nav_second_sub collapse submnu" id="General-Settings">
+                        <li><a href="#/">General Settings</a> </li>
+                        <li><a href="#/">Approval Settings</a> </li>
+                    </ul>
+                </ul>
+            </div>
+
+
+        </li>
+        <li>
+            <p class="splnav"> <i class="fa fa-trophy"></i>
+                <a> Performance </a>
+            </p>
+            <div class="sidebar_sub_division">
+                <ul class="nav_second_sub">
+                    <li><a href="appraisal-view.html">Appraisee View</a>
+                    </li>
+                    <li><a href="#">Goals</a>
+                    </li>
+                    <li><a href="#">Employee Salary</a>
+                    </li>
+                    <li class="crnt"><a data-toggle="collapse" href="#Settings" aria-controls="collapseExample"> Settings </a>
+                    </li>
+                    <ul class="nav_second_sub collapse submnu" id="Settings">
+                        <li><a href="skill-set.html">Skill Set</a>
+                        </li>
+                        <li><a href="competencty.html">Competency</a>
+                        </li>
+                        <li><a href="summery.html">Summery</a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+        </li>
+
+        <li>
+            <p class="splnav"> <i class="fa fa-ellipsis-h"></i>
+                <a> More </a>
+            </p>
+            <div class="sidebar_sub_division">
+                <ul class="nav_second_sub">
+                    <li><a href="#/">Dummy Text</a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+
+        <li class="bootm_toggle_settings_button ">
+            <p class="splnav bdr_btmnone_nav"> <i class="fa fa-cog"></i>
+                <a> Settings </a>
+            </p>
+            <div class="sidebar_sub_division">
+                <ul class="nav_second_sub">
+                    <li class="crnt"><a data-toggle="collapse" href="#Organization" aria-controls="collapseExample"> Organization </a>
+                    </li>
+                    <ul class="nav_second_sub collapse submnu" id="Organization">
+
+                        {% if request.user.id|emp_url_perm_check:"Company" %}
+                        <li><a href="view_company_details">Company</a>
+                        </li>
+                        {% endif %}
+                        {% if request.user.id|emp_url_perm_check:"User" %}
+                        <li><a href="user_management">Users</a>
+                        </li>
+                        {% endif %}
+                        <li><a href="department.html">Department</a>
+                        </li>
+                        <li><a href="designation.html">Designation</a>
+                        </li>
+                        <li><a href="location.html">Loactions</a>
+                        </li>
+                        <li><a href="delegation.html">Delegations</a>
+                        </li>
+
+                    </ul>
+                    <li class="crnt"><a data-toggle="collapse" href="#User-Access" aria-controls="collapseExample"> User Access </a>
+                    </li>
+                    <ul class="nav_second_sub collapse submnu" id="User-Access">
+                        {% if request.user.id|emp_url_perm_check:"Role" %}
+                        <li><a href="role_management">Roles</a>
+                        </li>
+                        {% endif %}
+                      <!--  <li><a href="permision.html">Permisions</a>
+                        </li>-->
+                    </ul>
+            </div>
+        </li>
+
+
+    </ul>
+</div>
+
+<!-- Sidebar -->
+<div class="bootm_toggle_button">
+    <i class="fa fa-align-right"></i>
+
+</div>
+
+            <div class="clearfix"></div>
+        </div>
+        <!-- Sidebar -left -->
+    </div>
+    <!-- Left Sidebar End -->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+    <div class="topbar">
+
+<nav class="navbar-custom">
+
+    <ul class="list-unstyled topbar-right-menu float-right mb-0">
+
+        <li class="hide-phone app-search">
+            <h1 style="      line-height: 7px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #242222;">
+              {{request.user|get_branch_department}}
+            </h1>
+            <!-- <form>
+                <input type="text" placeholder="Search..." class="form-control">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form> -->
+        </li>
+
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <i class="fi-bell noti-icon"></i>
+                <span class="badge badge-danger badge-pill noti-icon-badge">{{request.user|get_notifications_count}}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg">
+
+                <!-- item-->
+                <div class="dropdown-item noti-title">
+                    <h5 class="m-0"><span class="float-right"><a href="#" class="text-dark"><small>.</small></a> </span>Notification</h5>
+                </div>
+
+                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 414px;">
+                    <div class="slimscroll" style="max-height: 230px; overflow: hidden; width: auto; height: 414px;">
+                        <!-- item-->
+                        {% for i in request.user|get_notifications %}
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-success"><i class="mdi mdi-comment-account-outline"></i></div>
+                            <p class="notify-details"><small class="text-muted" style="    color: #000000 !important;">{{i.message}} {{i.dt}} is <small>{{i.status}}</small></small>
+                            
+                            <small style="color: red;">Date : {{i.requested_from_dt}} to {{i.requested_to_dt}}</small>
+                            </p>
+                                
+                          
+                        </a>
+                        {% endfor %}
+
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-info"><i class="mdi mdi-account-plus"></i></div>
+                            <p class="notify-details">New user registered.<small class="text-muted">5 hours ago</small></p>
+                        </a> -->
+
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-danger"><i class="mdi mdi-heart"></i></div>
+                            <p class="notify-details">Carlos Crouch liked <b>Admin</b><small class="text-muted">3 days ago</small></p>
+                        </a> -->
+
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-warning"><i class="mdi mdi-comment-account-outline"></i></div>
+                            <p class="notify-details">Caleb Flakelar commented on Admin<small class="text-muted">4 days ago</small></p>
+                        </a> -->
+
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-purple"><i class="mdi mdi-account-plus"></i></div>
+                            <p class="notify-details">New user registered.<small class="text-muted">7 days ago</small></p>
+                        </a> -->
+
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-custom"><i class="mdi mdi-heart"></i></div>
+                            <p class="notify-details">Carlos Crouch liked <b>Admin</b><small class="text-muted">13 days ago</small></p>
+                        </a> -->
+                    </div>
+                    <div class="slimScrollBar" style="background: rgb(158, 165, 171); width: 8px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 149.435px;"></div>
+                    <div class="slimScrollRail" style="width: 8px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+                </div>
+
+                <!-- All-->
+                <a href="view_all_notification" class="dropdown-item text-center text-primary notify-item notify-all">
+                    View all <i class="fi-arrow-right"></i>
+                </a>
+
+            </div>
+        </li>
+
+        <li class="dropdown notification-list" style="display: none">
+            <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <i class="fi-speech-bubble noti-icon"></i>
+                <span class="badge badge-custom badge-pill noti-icon-badge">6</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg">
+
+                <!-- item-->
+                <div class="dropdown-item noti-title">
+                    <h5 class="m-0"><span class="float-right"><a href="#" class="text-dark"><small>Clear All</small></a> </span>Chat</h5>
+                </div>
+
+                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 414px;">
+                    <div class="slimscroll" style="max-height: 230px; overflow: hidden; width: auto; height: 414px;">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon"><img src="images/7.jpg" class="img-fluid rounded-circle" alt=""> </div>
+                            <p class="notify-details">Cristina Pride</p>
+                            <p class="text-muted font-13 mb-0 user-msg">Hi, How are you? What about our next meeting</p>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon"><img src="images/users/avatar-3.jpg" class="img-fluid rounded-circle" alt=""> </div>
+                            <p class="notify-details">Sam Garret</p>
+                            <p class="text-muted font-13 mb-0 user-msg">Yeah everything is fine</p>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon"><img src="images/users/avatar-4.jpg" class="img-fluid rounded-circle" alt=""> </div>
+                            <p class="notify-details">Karen Robinson</p>
+                            <p class="text-muted font-13 mb-0 user-msg">Wow that's great</p>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon"><img src="images/7.jpg" class="img-fluid rounded-circle" alt=""> </div>
+                            <p class="notify-details">Sherry Marshall</p>
+                            <p class="text-muted font-13 mb-0 user-msg">Hi, How are you? What about our next meeting</p>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon"><img src="images/users/avatar-6.jpg" class="img-fluid rounded-circle" alt=""> </div>
+                            <p class="notify-details">Shawn Millard</p>
+                            <p class="text-muted font-13 mb-0 user-msg">Yeah everything is fine</p>
+                        </a>
+                    </div>
+                    <div class="slimScrollBar" style="background: rgb(158, 165, 171); width: 8px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 151.143px;"></div>
+                    <div class="slimScrollRail" style="width: 8px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+                </div>
+
+                <!-- All-->
+                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+                    View all <i class="fi-arrow-right"></i>
+                </a>
+
+            </div>
+        </li>
+
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <img src="{% static 'adminnew/images/7.jpg' %}" alt="user" class="rounded-circle"> <i class="mdi mdi-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
+                <!-- item-->
+                <div class="dropdown-item noti-title">
+                    <h6 class="text-overflow m-0">Welcome !</h6>
+                </div>
+
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <i class="fi-head"></i> <span>My Account</span>
+                </a>
+
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <i class="fi-cog"></i> <span>Settings</span>
+                </a>
+
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <i class="fi-help"></i> <span>Support</span>
+                </a>
+
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <i class="fi-lock"></i> <span>Lock Screen</span>
+                </a>
+
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <i class="fi-power"></i> <span>Logout</span>
+                </a>
+
+            </div>
+        </li>
+        <li class="rightmenu topnavsearch" id="main">
+            <a class="open-right">
+                <span class="sidbarnav"> <i class="mdi mdi-dots-vertical"></i></span>
+            </a>
+        </li>
+    </ul>
+
+    <ul class="list-inline menu-left mb-0">
+       <!-- <li class="float-left">
+            <button class="button-menu-mobile open-left">
+                <i class=" mdi mdi mdi-menu"></i>
+            </button>
+        </li>-->
+        <li class="float-left timer" style="display:none">
+            <div class="contTimer">
+<div class="timer_custome">
+                <a id="btnStart" class="timerbtn timerbtn_start">Check-in <i class="fa fa-play-circle"></i></a>
+                <a id="btnStop" class="timerbtn disnone_timer timerbtn_stop">Check-Out <i class="fa fa-pause-circle"></i></a>
+</div>
+                <div id="divTimer" class="divTimer">00 : 00 Hrs</div>
+            </div>
+        </li>
+
+    </ul>
+</nav>
+
+
+</div>
+
+<div id="mySidenav" class="sidenav">
+
+<a href="#">About</a>
+<a href="#">Services</a>
+<a href="#">Clients</a>
+<a href="#">Contact</a>
+</div>
+
+        <!-- Start Page content -->
+        <div class="content">
+            <div class="container-fluid">
+                <!-- end row -->
+             {% block content %}
+             {% endblock %}
+            </div>
+        </div>
+
+    </div>
+    <!-- container -->
+</div>
+<!-- content -->
+<script src="{% static 'adminnew/js/jquery.min.js' %}"></script>
+
+<script src="{% static 'adminnew/js/custome.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'adminnew/js/metisMenu.min.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.slimscroll.js' %}"></script>
+<script src="{% static 'adminnew/js/moment.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap-timepicker.js' %}"></script>
+<script src="{% static 'adminnew/js/bootstrap-datetimepicker.min.js' %}"></script>
+<!--<script src="js/moment.js"></script>-->
+
+<script src="{% static 'adminnew/js/jquery.core.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.app.js' %}"></script>
+<script src="{% static 'adminnew/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'adminnew/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+    $(window).scroll(function () {
+        var scroll = $(window).scrollTop();
+        if (scroll >= 0) {
+            $("html").addClass("modal-open2");
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Check if body height is higher than window height :)
+        if ($("body").height() > $(window).height()) {
+            // alert('asda')
+            $('html').addClass('modal-open2');
+        }
+    });
+</script>
+
+
+
+<script>
+    let eleBtnStart = document.querySelector("#btnStart");
+    let eleBtnStop = document.querySelector("#btnStop");
+    let eleTimer = document.querySelector("#divTimer");
+
+    let timeTicker = (() => {
+        var hours = minutes = seconds = 0;
+        var timerTick;
+        return {
+            start : () => {
+                if(!timerTick) {
+                    timerTick = setInterval(() => {
+                        seconds++;
+                        if(seconds == 60) {
+                            minutes += 1;
+                            seconds = 0;
+                            if(minutes == 60) {
+                                hours += 1;
+                                minutes = 0;
+                            }
+                        }
+                        eleTimer.innerHTML = `
+${hours.toString().length == 1 ? "0" + hours : hours}
+: ${minutes.toString().length == 1 ? "0" + minutes:minutes} Hrs`;
+                    },25);
+                }
+            },
+            stop : () => {
+                if(timerTick) {
+                    clearInterval(timerTick);
+                    timerTick = false;
+                }
+            },
+            reset : () => {
+                seconds = minutes = hours = 0;
+                clearInterval(timerTick);
+                timerTick = false;
+                eleTimer.innerHTML = `0${hours}:0${minutes}  Hrs`;
+            }
+        }
+    })();
+ eleBtnStart.addEventListener('click', () => {
+        timeTicker.start();
+    });
+    eleBtnStop.addEventListener('click', () => {
+        timeTicker.stop();
+    });
+
+    $('#btnStart').click(function (){
+        $(this).closest('.timer').addClass('timer_actv')
+    });
+    $('#btnStop').click(function (){
+        $(this).closest('.timer').removeClass('timer_actv')
+    });
+
+    $('.timerbtn_start').click(function (){
+        $(this).addClass('disnone_timer')
+        $(this).siblings('.timerbtn').addClass('timerbtn_stop');
+        $(this).parent().siblings('.divTimer').addClass('divTimer_dsplay')
+
+    });
+    $('.timerbtn_stop').click(function (){
+        $(this).removeClass('timerbtn_stop')
+        $(this).siblings('.timerbtn').removeClass('disnone_timer');
+        $(this).parent().siblings('.divTimer').removeClass('divTimer_dsplay')
+    });
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $(window).click(function() {
+            var scroll = $(window).scrollTop();
+            if (scroll >= 0) {
+                $("#wrapper").addClass("modal-open2");
+            }
+        });
+    });
+</script>
+
+<script src="{% static 'admin_new/js/jquery.core.js' %}"></script>
+<script src="{% static 'admin_new/js/jquery.app.js' %}"></script>
+<!-- App js -->
+<script src="{% static 'admin_new/js/select2.full.js' %}"></script>
+<script src="{% static 'admin_new/js/select2-custome.js' %}"></script>
+
+
+</body>
+</html>

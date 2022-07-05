@@ -1,0 +1,223 @@
+<!-- Button trigger modal -->
+<style>
+   
+
+
+
+.person {
+  padding: 0 10px;
+  width: 100%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.person:hover {
+  background-color: #e5e5e564;
+  cursor: pointer;
+}
+
+.person > .box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+.person > .box > .image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.person > .box > .online {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  min-width: 1rem;
+  min-height: 1rem;
+  border: 2px solid white;
+  border-radius: 100%;
+  background-color: #00ff00;
+}
+
+.person > .information {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.person > .information > .content,
+.data {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.person > .information > .data {
+  gap: 5px;
+}
+
+.person > .information > .content > .username {
+  font-size: 16px;
+  font-weight: 400;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.person > .information > .content > .badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.person > .information > .data > .message {
+  max-width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.person > .information > .data > .message,
+.time {
+  font-size: 14px;
+  color: #a0a0a0;
+}
+
+.person > .information > .new > .message,
+.new > .time {
+  color: black;
+  font-weight: 600;
+}
+
+.person > .notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.person > .notice > .point {
+  min-height: 10px;
+  min-width: 10px;
+  background-color: #0084ff;
+  border: none;
+  border-radius: 100%;
+}
+
+
+
+</style>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="history_log_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Role Updated Log </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+
+                <div class="top">
+              
+              
+              
+              
+              
+               
+              
+                </div>
+              
+                <div class="tumbler">
+              
+                  <div class="conversations">
+              
+                 
+              
+                
+              {% for i in data_history %}
+                    <div class="person mt-2" style="    background: #423d5859;
+                    padding: 15px 12px;
+                    border-radius: 12px;    height: 100%!important;">
+              
+                      <div class="box">
+                        <div class="image"> <img src="https://www.freeiconspng.com/thumbs/history-icon-png/history-icon-png--21.png" width="50px" height="50px"> </div>
+                        <!-- <div class="online"></div> -->
+                      </div>
+              
+                      <div class="information">
+                        <div class="content">
+                          <div class="username">{{i.dt}}</div>
+              
+                        </div>
+              
+                        <div class="data new">
+                          <div class="message">Role Start Date : {% if i.start_dt == None %} <i style="color: red;" class="fa fa-times" aria-hidden="true"></i> {% else %} <i style="color: #67d048;" class="fa fa-check" aria-hidden="true"></i><span style="    color: black;
+                            font-weight: 100;"> {{i.start_dt}}</span> {% endif %}</div>
+                         
+                        </div>
+                        <div class="data new">
+                           
+                            <div class="message">Role End Date : {% if i.end_dt == None %} <i style="color: red;" class="fa fa-times" aria-hidden="true"></i> {% else %} <i style="color: #67d048;" class="fa fa-check" aria-hidden="true"></i> <span style="    color: black;
+                              font-weight: 100;">{{i.end_dt}}</span> {% endif %}</div>
+                          </div>
+                        <div class="data new">
+                            <div class="message">Role Description : {% if i.description == None %} <i style="color: red;" class="fa fa-times" aria-hidden="true"></i> {% else %}<i style="color: #67d048;" class="fa fa-check" aria-hidden="true"></i> <span style="    color: black;
+                                font-weight: 100;">{{i.description}}</span> {% endif %}</div>
+                           
+                          </div>
+                          <div class="data new">
+                            <div class="message"> Updated by : <span style="    background: #3d9426;
+                                padding: 2px 22px;
+                                border-radius: 12px;
+                                color: white;
+                                font-size: 12px;
+                                font-weight: 100;">{{i.updated_by.username}}</span> </div>
+                           
+                          </div>
+                         
+                      </div>
+              
+                      <div class="notice">
+                        <div class="point"></div>
+                      </div>
+              
+                    </div>
+
+                    {% endfor %}
+              
+             
+              
+                  </div>
+              
+                </div>
+              
+              </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
