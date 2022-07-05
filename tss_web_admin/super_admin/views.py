@@ -2244,4 +2244,40 @@ def test_r2(request):
 
 def view_leave_more_details(request):
     id = request.GET.get("id",False)
-    return render(request,'super_admin/view_leave_more_details.html')
+    print("id111111111::::::",str(id))
+    leave_more_details_url = api_domain+"api/get_leave_details"
+    payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "leave_id" : int(id)
+                
+            }
+    })
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+
+    headers = {
+        'api_key': odoo_token_data.token,
+        'Content-Type': 'application/json',
+        'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+    }
+    response1 = requests.request("GET", leave_more_details_url, headers=headers, data=payload)
+    print("resll::::")
+    print(response1.json())
+    response12 = response1.json()['result']
+    print("ressss:::::")
+    print(response12)
+    r1 = response12['result'][0]
+    print("new:")
+    print(r1)
+    emp_name = ""
+    try:
+        data_emp = User_Management.objects.get(auth_user=request.user)
+        emp_name = data_emp.employee_name
+    except :
+        pass
+
+    context = {
+        'r1':r1,
+        'emp_name':emp_name
+    }
+    return render(request,'super_admin/view_leave_more_details.html',context)
