@@ -52,6 +52,9 @@
                                     <th>
                                         state
                                     </th>
+                                    <th>
+                                        Action
+                                    </th>
                                    
                                     
                                   
@@ -74,9 +77,18 @@
                                    <td>
                                     {{history.create_date}}
                                    </td>
-                                   <td style="    background: #8891ff;
-                                   color: white;"> 
-                                    {{history.state}}
+                                   <td style="    background: white;
+                                   color: red;"> 
+                                    {% if history.state == "confirm" %}
+                                    <span style="    font-weight: bold;">pending</span>
+                                    {% else %}
+                                    {{ history.state}}
+                                    {% endif %}
+                                   </td>
+                                   <td>
+                                    <a href="view_leave_more_details?id={{history.id}}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
                                    </td>
 
                                 </tr>
@@ -153,7 +165,7 @@
                             <div class="col-sm-5 pad5 ">
                                 <div class="form-group bmd-form-group">
                                     <select class="input form-control" name="employee_leave_type" id="emp_name">
-                                        <option value="0" selected="selected">Select Leave Type</option>
+                                        <option value="no" selected="selected">Select Leave Type</option>
 
                                         {% for leave_type in leave_type_response %}
     
@@ -177,7 +189,7 @@
                                         <option selected="selected" value="0">Select Employee Name</option>
                                         {% for i in replacer_response  %}
                                        
-                                        <option value="{{i.id}}" >{{i.name}}</option>
+                                        <option value="{{i.id}}" >{{i.name}} {{i.registration_number}}</option>
                                       
                                         {% endfor %}
                                      

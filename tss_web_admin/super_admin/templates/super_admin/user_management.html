@@ -221,7 +221,7 @@
                                     <option selected="selected" value="0">Select Employee Name</option>
 
                                     {% for employee in select_employee_api %}
-                                    <option value="{{employee.id}}" >{{employee.name}}</option>
+                                    <option value="{{employee.id}}" >{{employee.name}} {{employee.registration_number}}</option>
                                     {% endfor %}
                                     
                                  
@@ -260,6 +260,15 @@
                                         <input style="    background: #2b2c422b;
                                         color: black;" name="emp_registration_id" readonly id="emp_registration_id" type="text" class="input form-control">
                                         <label class="inputText openselect2">Employee Registration No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="form-group">
+                                    <div class="form-group bmd-form-group required_item">
+                                        <input style="    background: #2b2c422b;
+                                        color: black;" name="company_name" readonly id="company_name" type="text" class="input form-control">
+                                        <label class="inputText openselect2">Company Name</label>
                                     </div>
                                 </div>
                             </div>
@@ -688,6 +697,7 @@ $(".appnd_user_btn").click(function() {
                 $("#emp_dpt").val(data['employee_dpt'])
                 $("#empl_name").val(data['employee_name'])
                 $("#emp_registration_id").val(data['emp_registration_id'])
+                $("#company_name").val(data['company_name'])
 
           
                 

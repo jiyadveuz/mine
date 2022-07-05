@@ -116,6 +116,7 @@ class User_Management(models.Model):
     status = models.CharField(max_length=255,null=True)
     add_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_management_add_by_user_id", null=True)
     odoo_id = models.CharField(max_length=555,null=True)
+    company_name = models.CharField(max_length=255,null=True)
 
 
 

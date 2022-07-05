@@ -20,7 +20,28 @@ def get_branch_department(value):
     
     try:
         data_user = User_Management.objects.get(auth_user=value)
-        branch = data_user.employee_branch + "/" + data_user.employee_department
+        employee_branch = ""
+        if data_user.employee_branch == "false":
+            employee_branch = ""
+        else:
+            employee_branch = data_user.employee_branch
+
+        employee_department = ""
+        if data_user.employee_department == "false":
+            employee_department = ""
+        else:
+            employee_department = data_user.employee_department
+
+        company_name = ""
+        if data_user.company_name == "false":
+            company_name = ""
+        else:
+            company_name = data_user.company_name
+
+
+
+
+        branch = company_name+"-"+ employee_branch + "-" + employee_department
         pass
     except:
         pass

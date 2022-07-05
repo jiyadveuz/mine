@@ -59,6 +59,7 @@ urlpatterns = [
     path('user_role_log_modal',views.user_role_log_modal,name='user_role_log_modal'),
     path('user_leave_apply_action',views.user_leave_apply_action,name='user_leave_apply_action'),
     path('view_all_notification',views.view_all_notification,name='view_all_notification'),
+    path('view_leave_more_details',views.view_leave_more_details,name='view_leave_more_details'),
     
     
     

@@ -401,7 +401,7 @@ def user_view_advance_salary(request):
 
 
 def role_management(request):
-    data = Role_details.objects.all()
+    data = Role_details.objects.all().order_by('-id')
     return render(request,'super_admin/role_management.html',{'data':data})
 
 
@@ -972,7 +972,8 @@ def user_management(request):
     role_data = Role_details.objects.all()
     today = date.today()
 
-    all_user_data = User_Management.objects.all()
+    all_user_data = User_Management.objects.all().order_by("-id")
+    print("user_data:::::",str(all_user_data.values_list()))
 
     data_base_exists_employee_id = User_Management.objects.all()
 
@@ -1050,12 +1051,14 @@ def getemployee_branch_dpt(request):
     response12 =response1['result']
     response = response12['result'][0]
    
-    print("response1:::::",str(response))
+    print("response1222222:::::",str(response))
     name = ""
     employee_dpt = ""
     employee_branch = ""
     emp_registration_id = ""
     name = response['name']
+    company_name = response['company_id']
+    print("company_name:::",str(company_name[1]))
     try:
         employee_dpt  = response['department_id'][1]
     except:
@@ -1082,7 +1085,8 @@ def getemployee_branch_dpt(request):
         "employee_branch" :employee_branch,
         "employee_dpt":employee_dpt,
         "employee_name":name,
-        "emp_registration_id":emp_registration_id
+        "emp_registration_id":emp_registration_id,
+        'company_name':str(company_name[1])
     }
     return JsonResponse(data,safe=False)
 
@@ -1139,6 +1143,7 @@ def user_add_action(request):
         role_description = request.POST.getlist("role_description[]")
         role_start_dt = request.POST.getlist("role_start_dt[]")
         role_end_dt = request.POST.getlist("role_end_dt[]")
+        company_name = request.POST.get("company_name",False)
         
 
         role_length = len(role_id)
@@ -1188,7 +1193,9 @@ def user_add_action(request):
                         employee_name = employee_name,
                         status = "True",
                         add_by = request.user,
-                        odoo_id = "False"
+                        odoo_id = "False",
+                        company_name = company_name
+
 
 
                     )
@@ -1235,7 +1242,8 @@ def user_add_action(request):
                         employee_name = employee_name,
                         status = "True",
                         add_by = request.user,
-                        odoo_id = employee_id
+                        odoo_id = employee_id,
+                        company_name = company_name
 
 
                     )
@@ -1296,7 +1304,8 @@ def user_add_action(request):
                         employee_name = employee_name,
                         status = "True",
                         add_by = request.user,
-                        odoo_id = "False"
+                        odoo_id = "False",
+                        company_name = company_name
 
 
                     )
@@ -1332,7 +1341,8 @@ def user_add_action(request):
                         employee_name = employee_name,
                         status = "True",
                         add_by = request.user,
-                        odoo_id = employee_id
+                        odoo_id = employee_id,
+                        company_name = company_name
 
 
                     )
@@ -2044,6 +2054,11 @@ def user_leave_apply_action(request):
         employee_email = request.POST.get("employee_email",False)
         employee_number = request.POST.get("employee_number",False)
         employee_leave_type = request.POST.get("employee_leave_type",False)
+        print("employee_leave_type1::::::::::",str(employee_leave_type))
+        if  employee_leave_type == 'no':
+            print("heeeeeee")
+            messages.warning(request,str("Please Select Leave Type !!!"))
+            return redirect("leave_management")
         employee_leave_from_date = request.POST.get("employee_leave_from_date",False)
         employee_leave_to_date = request.POST.get("employee_leave_to_date",False)
         employee_available_leave = request.POST.get("employee_available_leave",False)
@@ -2064,6 +2079,7 @@ def user_leave_apply_action(request):
        
         request_date_from_period = request.POST.get("request_date_from_period",False)
         print("employee_leave_type::::",str(employee_leave_type))
+        print("employeee_id:::::",str(data_employee.odoo_id))
         leave_apply_url = api_domain+"api/post_leave"
         payload = json.dumps({
             "jsonrpc": "2.0",
@@ -2223,3 +2239,9 @@ def test_r2(request):
     )
      
     return HttpResponse("Done")
+
+
+
+def view_leave_more_details(request):
+    id = request.GET.get("id",False)
+    return render(request,'super_admin/view_leave_more_details.html')
