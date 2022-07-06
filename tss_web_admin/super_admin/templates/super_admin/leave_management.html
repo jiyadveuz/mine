@@ -35,9 +35,39 @@
                         </div>
                     </div>
                 </div>
+
+              
                 <div class="card-box ">
+                   
+
+                   <div class="row" style="    padding: 20px 3px;">
+                    {% for i1 in child_response %}
+
+                    {% if emp_id ==  i1.registration_number %}
+                    <div class="col-md-2">
+                        <a href="" style="    background: #262435;
+                        color: white;
+                        padding: 12px 40px;
+                        font-size: 12px;">{{i1.name}}</a>
+                    </div>
+
+                    {% else %}
+
+                   
+                    <div class="col-md-2">
+                        <a href="" style="    background:  #72819c;
+                        color: white;
+                        padding: 12px 40px;
+                        font-size: 12px;">{{i1.name}}</a>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                   </div>
                     <div class="table_rspnsv" id="tableview">
                         <div class="row2 tbl_stngs commen_table">
+
+
+
 
                             <table id="datatable" class="table table-bordered dt-responsive nowrap table-hover" style="width: 100%;">
 
@@ -81,6 +111,8 @@
                                    color: red;"> 
                                     {% if history.state == "confirm" %}
                                     <span style="    font-weight: bold;">pending</span>
+                                    {%  elif history.state == "validate" %}
+                                    <span style="color: black">Approved</span>
                                     {% else %}
                                     {{ history.state}}
                                     {% endif %}
@@ -147,22 +179,86 @@
 
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-2">
                                 <div class="form-group bmd-form-group">
-                                    <input style="    background: #2b2c422b;
-                                    color: black;" readonly value="{{emp_name}}" name="employee_name" type="text" class="input form-control getVal">
+                                    <select name="employee_name" class="form-control">
+                                        {% for i in child_response %}
+                                        <option value="{{i.id}}">{{i.name}}[{{i.registration_number}}]</option>
+
+                                        {% endfor %}
+                                    </select>
+
+                                    
+                                    <!-- <input style="    background: #2b2c422b;
+                                    color: black;" readonly value="{{emp_name}}" name="employee_name" type="text" class="input form-control getVal"> -->
                                     <label class="inputText input-has-value">Employee Name</label>
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 pad5 ">
+                            <div class="col-sm-4 pad5 mt-2">
                                 <div class="form-group bmd-form-group">
                                     <input style="    background: #2b2c422b;
                                     color: black;" readonly value="{{emp_id}}" name="employee_number" type="text" class="input form-control">
                                     <label class="inputText">Employee Number</label>
                                 </div>
                             </div>
-                            <div class="col-sm-5 pad5 ">
+                            <div class="col-sm-5 pad5 mt-2 ">
+                                <div class="form-group bmd-form-group">
+                                    <select class="input form-control" name="absence_status" >
+                                        <option>Confirmed</option>
+                                        <option>Planned</option>
+
+                                       
+                                    </select>
+                                    <label class="inputText">Absence Status</label>
+                                </div>
+                            </div>
+                         
+                            <div class="col-sm-12 pad5 mt-2" style="display:none" id="leave_avaiable_id">
+                                <div class="form-group bmd-form-group">
+                                    <input readonly id="available_leave" name="employee_available_leave" type="text" class="input form-control">
+                                    <label class="inputText">Leave Available</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-9 pad5 mt-2">
+                                <div class="form-group bmd-form-group">
+                                    
+                                    <div class="form-group"> 
+                                        
+                                        <select name="employee_leave_replacer" class="form-control select2 " >
+                                        <option selected="selected" value="0">Select Employee Name</option>
+                                        {% for i in replacer_response  %}
+                                       
+                                        <option value="{{i.id}}" >{{i.name}} {{i.registration_number}}</option>
+                                      
+                                        {% endfor %}
+                                     
+                                    </select> </div> 
+                                    <label class="inputText">Replace By</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 pad5 mt-2">
+                                <div class="form-group bmd-form-group">
+                                    <input name="employee_alternative_contcat_no" type="number"  class="input form-control">
+                                    <label class="inputText">Emergency Contact Number During Leave</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="row">
+                            <div class="col-md-12 mt-2">
+                                <div class="col-sm-12 pad5  mt-2">
+                                    <div class="form-group bmd-form-group">
+                                        <input style="    background: #2b2c422b;
+                                        color: black;" readonly value="{{emp_email}}" name="employee_email" type="text" class="input form-control getVal">
+                                        <label class="inputText input-has-value">Email</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 pad5  mt-2">
                                 <div class="form-group bmd-form-group">
                                     <select class="input form-control" name="employee_leave_type" id="emp_name">
                                         <option value="no" selected="selected">Select Leave Type</option>
@@ -176,49 +272,15 @@
                                     <label class="inputText">Leave Type</label>
                                 </div>
                             </div>
-                            <div class="col-sm-12 pad5 " style="display:none" id="leave_avaiable_id">
+                            <div class="col-sm-5 pad5 mt-2 ">
                                 <div class="form-group bmd-form-group">
-                                    <input readonly id="available_leave" name="employee_available_leave" type="text" class="input form-control">
-                                    <label class="inputText">Leave Available</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-9 pad5 ">
-                                <div class="form-group bmd-form-group">
-                                    
-                                    <div class="form-group"> <select name="employee_leave_replacer" class="form-control select2 " >
-                                        <option selected="selected" value="0">Select Employee Name</option>
-                                        {% for i in replacer_response  %}
+                                  <input class="input form-control" id="absence_category" name="absence_category" type="text">
+
                                        
-                                        <option value="{{i.id}}" >{{i.name}} {{i.registration_number}}</option>
-                                      
-                                        {% endfor %}
-                                     
-                                    </select> </div> 
-                                    <label class="inputText">Replace By</label>
+                                    <label class="inputText">Absence Category</label>
                                 </div>
                             </div>
-                            <div class="col-sm-6 pad5 ">
-                                <div class="form-group bmd-form-group">
-                                    <input name="employee_alternative_contcat_no" type="number"  class="input form-control">
-                                    <label class="inputText">Emergency Contact Number During Leave</label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="col-sm-12 pad5 ">
-                                    <div class="form-group bmd-form-group">
-                                        <input style="    background: #2b2c422b;
-                                        color: black;" readonly value="{{emp_email}}" name="employee_email" type="text" class="input form-control getVal">
-                                        <label class="inputText input-has-value">Email</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mt-2">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group bmd-form-group">
@@ -238,10 +300,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 ">
+                            <div class="col-md-6 mt-2">
                                 <div class="form-group bmd-form-group" id="to_date1">
                                     <div class="input-group bmd-date-group">
-                                        <input type="text" name="employee_leave_to_date"  class="form-control input" id="endDate" />
+                                        <input type="text" name="employee_leave_to_date" autocomplete="off"  class="form-control input" id="endDate" />
                                         <label class="bmd-label-floating inputText labl_insd">To</label>
                                         <div class="input-group-append"> <span class="input-group-text "><i class="fa fa-calendar"></i></span>
                                         </div>
@@ -267,14 +329,14 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="col-md-12 mt-4 ">
+                            <div class="col-md-12 mt-2 ">
                                 <div class="form-group bmd-form-group">
                                     <input style="    background: #2b2c422b;
                                     color: black;" type="text" name="employee_total_days" id="t1" class="input form-control">
                                     <label class="inputText">Total Days</label>
                                 </div>
                             </div>
-                            <div class="col-sm-12  ">
+                            <div class="col-sm-12  mt-2">
                                
                                     <div class="form-group bmd-form-group">
     
@@ -311,10 +373,42 @@
                 
                 </div>
 
-     
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="sub_hdng_edit">View Entitlement Balances</h4>
+                    </div>
+                    <div class="col-md-12 pad0 ">
+
+                        <div class="tbl_stngs commen_table m-t-8">
+
+                            <table id="example" class="table table-bordered dt-responsive nowrap table-hover dataTable no-footer" style="width: 100%">
+
+                                <thead>
+                                <tr>
+                                    <th>Sr #</th>
+                                    <th>Leave Type</th>
+                                    <th>Total </th>
+                                    <th>Total Available</th>
+                                  
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                     Paid Leave
+                                    </td>
+                                    <td>10</td>
+                                    <td>9</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12 m-t-10">
-                        <h4 class="sub_hdng_edit" style="background-color: #423d5891!important">Attachment </h4>
+                        <h4 class="sub_hdng_edit" style="background-color: #2b2c42!important">Attachment </h4>
                     </div>
 
                     <div class="col-md-12 pad0 ">
@@ -632,14 +726,18 @@ $(".appnd_user_btn").click(function() {
 
                 var half_day_status = data['half_day_status']
                 var requires_allocation = data['requires_allocation']
+                
                
                 if(requires_allocation == "yes"){
                     $("#leave_avaiable_id").show()
+                    $("#absence_category").val("Paid Leave")
 
                 }
                 else{
                     $("#leave_avaiable_id").hide()
+                    $("#absence_category").val("Unpaid Leave")
                 }
+                
              
                 if(half_day_status == "half_day"){
                     $("#half_day1").show();
@@ -909,17 +1007,37 @@ ${hours.toString().length == 1 ? "0" + hours : hours}
 
 <script src="{% static 'adminnew/js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'adminnew/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+    $('#example').DataTable();
+});
+</script>
 <script type="text/javascript">
     $(document).ready(function() {
         // Default Datatable
+        var dtToday = new Date();
+    
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var minDate1= year + '-' + month + '-' + day;
+   
         $('#datatable').DataTable();
-        $('#entitlementsheet').DataTable();
+        // $('#entitlementsheet').DataTable();
         $('#supprtDocmnt').DataTable();
         $('#responsive-datatable').DataTable();
         $('#startDate').datetimepicker({
             
             format: 'YYYY-MM-DD'
+            
         });
+        $('#startDate').data("DateTimePicker").minDate(minDate1);
         $('#endDate').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false //Important! See issue #1075
@@ -1044,7 +1162,26 @@ checkbox.addEventListener('change', (event) => {
     // alert('not checked');
     $("#to_date2").hide()
     $("#to_date1").show()
-    $("#t1").val('')
+
+    var start =  $('#endDate').val();
+          
+          var end = $('#startDate').val();
+
+         
+        
+        
+          
+          //    alert(days)
+
+          var dt1 = new Date(end);
+          var dt2 = new Date(start);
+
+          var time_difference = dt2.getTime() - dt1.getTime();
+          var result = time_difference / (1000 * 60 * 60 * 24);
+         
+          $("#t1").val(result+1)
+
+ 
     
   }
 })
@@ -1053,5 +1190,7 @@ checkbox.addEventListener('change', (event) => {
 <script>
 
 </script>
+
+
         
 {% endblock %}

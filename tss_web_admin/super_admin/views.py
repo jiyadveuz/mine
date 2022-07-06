@@ -21,8 +21,14 @@ from channels.layers import get_channel_layer
 
 from .decorators import *
 def index(request):
+    user_email = ""
+    try:
 
-    return render(request,'super_admin/index.html')
+        user_email = request.session['user_email']
+    except:
+        pass
+
+    return render(request,'super_admin/index.html',{'user_email':user_email})
 
 
 
@@ -71,8 +77,16 @@ def login_action(request):
         print("uname:::",str(uname))
         print("passwrd:::",str(passwrd))
         user = authenticate(username=uname, password=passwrd)
+        remember = request.POST.get("remember",False)
+        print("rem::::",str(remember))
+        
         
         if user is not None:
+            if remember == "yes":
+                request.session['user_email'] = uname
+            else:
+                request.session['user_email'] = ""
+
             st = user.is_superuser
 
             token_url = api_domain+"api/get_api_key"
@@ -81,7 +95,7 @@ def login_action(request):
                 "params": {
                 "login": "123",
                 "password": "123",
-                "db": "tss-jul-4"
+                "db": "tss-july-6"
                 }
             })
             headers = {
@@ -1825,13 +1839,39 @@ def leave_management(request):
     # replacer_response = requests.get(api_domain+"api/get_all_employees").json()
 
 
+
+
+    
+    child_response = ""
+    try:
+        child_response_url = api_domain+"api/get_childs"
+        child_payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "employee_id" : int(odoo_id)
+               
+            }
+        })
+        child_header = {
+            'api_key': odoo_token,
+            'Content-Type': 'application/json',
+            'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+        }
+        child_response1 = requests.request("GET", child_response_url, headers=child_header, data=child_payload).json()
+        child_response12 = child_response1['result']
+        child_response = child_response12['result']
+    except:
+        pass
+
+
     context = {
         'leave_type_response':leave_type_response,
         'leave_history_response':leave_history_response,
         'emp_name':emp_name,
         'emp_email':emp_email,
         'emp_id':emp_id,
-        'replacer_response':replacer_response
+        'replacer_response':replacer_response,
+        'child_response':child_response
         
     }
 

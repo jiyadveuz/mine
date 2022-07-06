@@ -245,7 +245,12 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="fi-bell noti-icon"></i>
-                <span class="badge badge-danger badge-pill noti-icon-badge">{{request.user|get_notifications_count}}</span>
+                <span class="badge badge-danger badge-pill noti-icon-badge">
+                    
+                    <span class="badge" id="notification-badge">  {{request.user|get_notifications_count}}</span>
+                  
+                
+                </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg">
 
@@ -268,6 +273,9 @@
                           
                         </a>
                         {% endfor %}
+                        <div id="n123">
+
+                        </div>
 
                         <!-- item-->
                         <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
@@ -581,6 +589,53 @@ ${hours.toString().length == 1 ? "0" + hours : hours}
 <script src="{% static 'admin_new/js/select2.full.js' %}"></script>
 <script src="{% static 'admin_new/js/select2-custome.js' %}"></script>
 
+<script>
 
+    user_id = `{{request.user.id}}`
+     const roomName = "broadcast2"
+
+     const notificationSocket = new WebSocket(
+         'ws://'
+         + window.location.host
+         + '/ws/notification/'
+         + roomName
+         + '/'
+     );
+
+     notificationSocket.onmessage = function(e) {
+         const data = JSON.parse(e.data);
+         //document.querySelector('#chat-log').value += (data.message + '\n');
+         // console.log(data);
+         var message = data['message'];
+         var dt = data['dt'];
+         var status = data['status'];
+         var requested_date_from= data['requested_date_from'];
+         var requested_date_to = data['requested_date_to'];
+         var send_user_id = data['send_user_id']
+
+
+         if (user_id == send_user_id){
+             document.getElementById("notification-badge").innerHTML = parseInt(document.getElementById("notification-badge").innerHTML) + 1;
+         document.getElementById("n123").innerHTML = "<a href=\"javascript:void(0);\" class=\"dropdown-item notify-item\"><div class=\"notify-icon bg-success\"><i class=\"mdi mdi-comment-account-outline\"></i></div><p class=\"notify-details\"><small class=\"text-muted\" style=\"    color: #000000 !important;\">"+message+ " "+dt+" is <small>"+status+"</small></small><small style=\"color: red;\">Date : "+requested_date_from+" to "+requested_date_to+"</small> </p> </a>"+ document.getElementById("n123").innerHTML
+        
+         var audio = new Audio("http://10.10.10.119:8000/static/test.mp3");
+         audio.play()
+
+     
+     }
+
+
+        
+        
+     }; 
+
+     notificationSocket.onclose = function(e) {
+         console.error('Chat socket closed unexpectedly');
+     };
+
+   
+
+    
+ </script>
 </body>
 </html>
