@@ -2511,6 +2511,45 @@ def user_leave_gantt_chart(request):
     year = now.year
     month = now.month
 
+
+    get_chile_response = ""
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+    odoo_token = odoo_token_data.token
+   
+    try:
+        get_chile_response_response_url = api_domain+"api/get_childs"
+        get_chile_response_payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "employee_id": int(employee_data.odoo_id),
+                "exclud_parent" : "True"
+            }
+        })
+        get_chile_response_headers = {
+            'api_key': odoo_token,
+            'Content-Type': 'application/json',
+            'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+        }
+
+        get_chile_response1 = requests.request("GET", get_chile_response_response_url, headers=get_chile_response_headers, data=get_chile_response_payload).json()
+        
+        
+        get_chile_response112  = get_chile_response1['result']
+        get_chile_response = get_chile_response112['result']
+        print("r122222::")
+       
+        
+
+    except:
+        pass
+
+
+    print("ddddddd::::",str(get_chile_response))
+
+    
+
+
+
   
 
     context = {
@@ -2519,7 +2558,8 @@ def user_leave_gantt_chart(request):
         'employee_data_name':employee_data.employee_name,
         'ays':ays,
         'year':year,
-        'month':month
+        'month':month,
+        'get_chile_response':get_chile_response
     }
 
     return render(request,'super_admin/user_leave_gantt_chart.html',context)
@@ -2529,8 +2569,8 @@ def user_leave_gantt_chart(request):
 def user_leave_gantt_chart_next_month_action(request):
     print("next month::::::::::::")
     from datetime import date
-    y = request.POST.get("year",False)
-    m = request.POST.get("month",False)
+    y = request.GET.get("year",False)
+    m = request.GET.get("month",False)
     df = date(int(y),int(m)+1,1)
     new_month = df.month
     new_year = df.year
@@ -2569,15 +2609,15 @@ def user_leave_gantt_chart_next_month_action(request):
         'month':month
     }
 
-    return render(request,'super_admin/user_leave_gantt_chart.html',context)
+    return render(request,'super_admin/user_leave_gantt_chart1.html',context)
 
 
 
 def user_leave_gantt_chart_prev_month_action(request):
     print("next month::::::::::::")
     from datetime import date
-    y = request.POST.get("year",False)
-    m = request.POST.get("month",False)
+    y = request.GET.get("year",False)
+    m = request.GET.get("month",False)
     df = date(int(y),int(m)-1,1)
     new_month = df.month
     new_year = df.year
@@ -2616,4 +2656,4 @@ def user_leave_gantt_chart_prev_month_action(request):
         'month':month
     }
 
-    return render(request,'super_admin/user_leave_gantt_chart.html',context)
+    return render(request,'super_admin/user_leave_gantt_chart1.html',context)

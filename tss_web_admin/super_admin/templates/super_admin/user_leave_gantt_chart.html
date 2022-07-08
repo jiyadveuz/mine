@@ -5,6 +5,33 @@
 {% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<div class="box_header">
+    <div class="row">
+        <div class="col-md-7 col-12">
+            <div class="mainiconbox"><i class="fa fa-user"></i>
+            </div>
+            <h4 class="m-t-0 header-title">
+                <div class="breadcrumbs ng-scope">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a>Leave Management </a></li>
+                        <!-- <li><a>User  Settings</a></li> -->
+                    </ul>
+                    <div>Leave Gantt</div>
+                </div>
+            </h4>
+        </div>
+        <div class="col-md-5 col-12">
+            <div class="pull-right p-t-10">
+<!-- 
+                <a data-toggle="modal" class="btn btn-info newbtn_crete" data-target="#newuser"> <i class="mdi mdi-plus-circle-outline"></i> APPLY NEW LEAVE
+                </a> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="gantt_chart1">
+
 
 <div class="card-box ">
 
@@ -17,7 +44,7 @@
 
         <div class="row">
             <div class="col-md-2">
-                <form action="user_leave_gantt_chart_prev_month_action" method="POST">
+                <!-- <form action="user_leave_gantt_chart_prev_month_action" method="POST">
                     {% csrf_token %}
                     <input type="hidden" value="{{year}}" name="year">
                     <input type="hidden" value="{{month}}" name="month">
@@ -25,7 +52,14 @@
                     border: none;
                     padding: 6px 14px;" type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></button>
                   
-                </form>
+                </form> -->
+
+                <a data-year="{{year}}" data-month="{{month}}" href="#" class="gantt_chart_prev_month_action">
+                    <button style="background: #017e84;
+                    border: none;
+                    padding: 6px 14px;" type="button" class="btn btn-primary "><i class="fa-solid fa-arrow-left"></i></button>
+                  
+                </a>
             </div>
             <div class="col-md-4">
                 <a href="">
@@ -37,7 +71,7 @@
             
             </div>
             <div class="col-md-2">
-                <form action="user_leave_gantt_chart_next_month_action" method="POST">
+                <!-- <form action="user_leave_gantt_chart_next_month_action" method="POST">
                     {% csrf_token %}
                     <input type="hidden" value="{{year}}" name="year">
                     <input type="hidden" value="{{month}}" name="month">
@@ -46,7 +80,14 @@
                     <button  style="background: #017e84;
                     border: none;
                     padding: 6px 14px;" type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i></button>
-                  </form>
+                  </form> -->
+
+                  <a data-year="{{year}}" data-month="{{month}}" href="#" class="gantt_chart_next_month_action">
+                    <button style="background: #017e84;
+                    border: none;
+                    padding: 6px 14px;" type="button" class="btn btn-primary "><i class="fa-solid fa-arrow-right"></i></button>
+                  
+                </a>
                
             </div>
         </div>
@@ -125,7 +166,7 @@
                 
              </td>
              {% elif i.holiday_status_id.1 == "Unpaid" %}
-             <td style="       background: red;
+             <td style="       background: #ed1f529e;
              color: white;
              padding: 12px 40px;
              font-size: 12px;" colspan="{{i.number_of_days}}">
@@ -170,7 +211,114 @@
  
          {% endfor %}
          </tr>
+         
+
+
+         
+         {% for i in get_chile_response %}
+         <tr>
+         
+         
+             <td>
+                <img style="    width: 12%;
+                padding: 3px 9px;" src="{% static 'u1.png' %}"> 
+         
+                <span>  {{i.name}}</span>
+               
+             </td>
+
+
+             {% for j in ays %}
+        
+         
+         
+             {% if  i.id|get_leave_available1:j %}
+
+
+          
+                
+             {% for i in i.id|get_leave_available1:j %}
+
+            
+            {% if i.possible == False and i.leave_from_previous_months >= 1 %}
+
+            <td style="       background: #a506067d;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.leave_from_previous_months}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                  
+                 </center>
+                 <span style="    font-size: 8px;"> {{i.date_from }} To {{i.date_to}}</span>
+                
+             </td>
+             {% elif i.possible == False %}
  
+             
+             {% else %}
+
+
+
+             {% if i.holiday_status_id.1 == "Annual Vacation" %}
+             <td style="       background: #b392a4;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             {% elif i.holiday_status_id.1 == "Unpaid" %}
+             <td style="       background: #ed1f529e;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             {% elif i.holiday_status_id.1 == "Paid Time Off" %}
+             <td style="       background: #f6a096;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             
+             {% else %}
+             <td style="       background: #262435;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             {% endif %}
+             {% endif %}
+             {% endfor %}
+         
+          {% else %}
+ 
+          <td>
+            
+          
+          </td>
+          {% endif %}
+         
+ 
+         {% endfor %}
+         </tr>
+
+
+         {% endfor %}
          
          <!-- <td style="    background: red;" colspan="2">
          
@@ -183,4 +331,140 @@
     </table>
     </div>
 
+    </div>
+
+
+    <style>
+        .lds-dual-ring.hidden { 
+    display: none;
+    }
+    .lds-dual-ring {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+    }
+    .lds-dual-ring:after {
+      content: " ";
+      display: block;
+      width: 64px;
+      height: 64px;
+      margin: 5% auto;
+      border-radius: 50%;
+      border: 6px solid #fff;
+      border-color: #fff transparent #fff transparent;
+      animation: lds-dual-ring 1.2s linear infinite;
+    }
+    @keyframes lds-dual-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0,0,0,.8);
+        z-index: 999;
+        opacity: 1;
+        transition: all 0.5s;
+    }
+    </style>
+         <div id="loader" class="lds-dual-ring hidden overlay"></div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+    <script>
+         $(".gantt_chart_next_month_action").click(function(){
+             var year = $(this).attr("data-year");
+             var month = $(this).attr("data-month")
+
+
+
+
+
+
+             $.ajax({
+    type: "GET",
+    url: "user_leave_gantt_chart_next_month_action",
+    data: {
+                 'year': year,
+                 'month' : month      
+             },
+    beforeSend: function() {
+        $('#loader').removeClass('hidden')
+    },
+    success: function(data){
+        $("#gantt_chart1").html(data);
+    },
+  complete: function(){
+        $('#loader').addClass('hidden')
+    },
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+         
+         })
+     </script>
+
+     <script>
+
+        $(".gantt_chart_prev_month_action").click(function(){
+          
+            var year = $(this).attr("data-year");
+             var month = $(this).attr("data-month")
+            
+
+
+
+
+
+             $.ajax({
+                type: "GET",
+                url: "user_leave_gantt_chart_prev_month_action",
+                data: {
+                    'year': year,
+                    'month' : month      
+                },
+                beforeSend: function() {
+                    $('#loader').removeClass('hidden')
+                },
+                success: function(data){
+                    $("#gantt_chart1").html(data);
+                },
+                complete: function(){
+                    $('#loader').addClass('hidden')
+                },
+            });
+
+
+
+
+
+
+        })
+     </script>
 {% endblock %}
