@@ -1787,6 +1787,8 @@ def leave_management(request):
 
         leave_history_response1 = requests.request("GET", leave_history_response_url, headers=leave_history_headers, data=leave_history_payload).json()
         print("rs122223::::")
+        print("response1::::::::")
+        print(leave_history_response1)
         
         leave_history_response12  = leave_history_response1['result']
         leave_history_response = leave_history_response12['result']
@@ -1864,6 +1866,28 @@ def leave_management(request):
         pass
 
 
+
+
+    entitlement_balances_url = api_domain+"api/get_leave_entitlement"
+    entitlement_balances_payload = json.dumps({
+        "jsonrpc": "2.0",
+        "params": {
+            "employee_id" : int(odoo_id)
+               
+        }
+    })
+    entitlement_balances_header = {
+        'api_key': odoo_token,
+        'Content-Type': 'application/json',
+        'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+    }
+    entitlement_balances_response1 = requests.request("GET", entitlement_balances_url, headers=entitlement_balances_header, data=entitlement_balances_payload).json()
+    entitlement_balances_response12 = entitlement_balances_response1['result']
+    entitlement_balances_response = entitlement_balances_response12['result']
+    
+    
+
+
     context = {
         'leave_type_response':leave_type_response,
         'leave_history_response':leave_history_response,
@@ -1871,7 +1895,9 @@ def leave_management(request):
         'emp_email':emp_email,
         'emp_id':emp_id,
         'replacer_response':replacer_response,
-        'child_response':child_response
+        'child_response':child_response,
+        'entitlement_balances_response':entitlement_balances_response,
+        'child_count':len(child_response)
         
     }
 
@@ -2107,6 +2133,8 @@ def user_leave_apply_action(request):
         employee_leave_replacer = request.POST.get("employee_leave_replacer",False)
         employee_alternative_contcat_no = request.POST.get("employee_alternative_contcat_no",False)
         request_unit_half= request.POST.get("request_unit_half",False)
+        absence_status = request.POST.get("absence_status",False)
+        absence_category = request.POST.get("absence_category",False)
 
         print("request_unit_half::::",str(request_unit_half))
         if request_unit_half == "Half day":
@@ -2132,9 +2160,11 @@ def user_leave_apply_action(request):
                 "alternative_contact_number": employee_alternative_contcat_no,
                 "replacer": employee_leave_replacer,
                 "holiday_type": "employee",
-                "employee_id": int(data_employee.odoo_id),
+                "employee_id": int(employee_name),
                 'request_unit_half':request_unit_half,
                 'request_date_from_period':request_date_from_period,
+                'absence_status':absence_status,
+                'absence_category':absence_category
                 
             }
         })
@@ -2321,3 +2351,269 @@ def view_leave_more_details(request):
         'emp_name':emp_name
     }
     return render(request,'super_admin/view_leave_more_details.html',context)
+
+
+
+def get_selected_employee_entitlement_balance(request):
+    employee_id = request.GET.get("employee_id",False)
+
+    entitlement_balances_url = api_domain+"api/get_leave_entitlement"
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+    entitlement_balances_payload = json.dumps({
+        "jsonrpc": "2.0",
+        "params": {
+            "employee_id" : int(employee_id)
+               
+        }
+    })
+    entitlement_balances_header = {
+        'api_key': odoo_token_data.token,
+        'Content-Type': 'application/json',
+        'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+    }
+    entitlement_balances_response1 = requests.request("GET", entitlement_balances_url, headers=entitlement_balances_header, data=entitlement_balances_payload).json()
+    entitlement_balances_response12 = entitlement_balances_response1['result']
+    entitlement_balances_response = entitlement_balances_response12['result']
+
+
+
+
+    employee_data_url =api_domain+"api/get_employee"
+    payload = json.dumps({
+        "jsonrpc": "2.0",
+        "params": {
+            "employee_id": employee_id
+        }
+    })
+    headers = {
+        'api_key': odoo_token_data.token,
+        'Content-Type': 'application/json',
+        'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+    }
+
+    response1  = requests.request("GET", employee_data_url, headers=headers, data=payload).json()
+    response12 =response1['result']
+    response = response12['result'][0]
+    
+   
+    
+    
+    emp_registration_id = response['registration_number']
+    print("emmm:::::",str(emp_registration_id))
+    return render(request,'super_admin/get_selected_employee_entitlement_balance.html',{'entitlement_balances_response':entitlement_balances_response,'emp_registration_id':emp_registration_id})
+
+
+
+
+
+def get_child_based_leave_history(request):
+    employee_id = request.GET.get("employee_id",False)
+    print("employee_id1111111::::",str(employee_id))
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+    odoo_token = odoo_token_data.token
+    leave_history_response = ""
+    try:
+        leave_history_response_url = api_domain+"api/get_leave_history"
+        leave_history_payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "employee_id": int(employee_id)
+            }
+        })
+        leave_history_headers = {
+            'api_key': odoo_token,
+            'Content-Type': 'application/json',
+            'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+        }
+
+        leave_history_response1 = requests.request("GET", leave_history_response_url, headers=leave_history_headers, data=leave_history_payload).json()
+        print("rs122223::::")
+        
+        leave_history_response12  = leave_history_response1['result']
+        leave_history_response = leave_history_response12['result']
+        print("r1::")
+        print(leave_history_response)
+        
+
+    except:
+        pass
+    return render(request,'super_admin/get_child_based_leave_history.html',{'leave_history_response':leave_history_response})
+
+
+
+def testchart(request):
+    import calendar
+    import datetime
+    now = datetime.datetime.now()
+    print(now.month)
+    days = calendar.monthrange(now.year, now.month)[1]
+    print("total_days::::",str(days)) 
+    month_num = str(now.month)
+    datetime_object = datetime.datetime.strptime(month_num, "%m")
+
+    month_name = datetime_object.strftime("%b")
+    print("Short name: ",month_name)
+
+    full_month_name = datetime_object.strftime("%B")
+    print("Full name: ",full_month_name)
+
+    employee_data = User_Management.objects.get(auth_user=request.user)
+
+    import datetime, calendar
+    year = now.year
+    month = now.month
+    num_days = calendar.monthrange(year, month)[1]
+
+    ays = [datetime.date(year, month, day) for day in range(1, num_days+1)]
+    print("assss::::::")
+    print(ays)
+
+  
+
+    context = {
+        'full_month_name':full_month_name,
+        'days':days,
+        'employee_data_name':employee_data.employee_name,
+        'ays':ays
+    }
+
+    return render(request,'super_admin/testchart.html',context)
+
+
+
+
+def user_leave_gantt_chart(request):
+    import calendar
+    import datetime
+    now = datetime.datetime.now()
+    print(now.month)
+    days = calendar.monthrange(now.year, now.month)[1]
+    print("total_days::::",str(days)) 
+    month_num = str(now.month)
+    datetime_object = datetime.datetime.strptime(month_num, "%m")
+
+    month_name = datetime_object.strftime("%b")
+    print("Short name: ",month_name)
+
+    full_month_name = datetime_object.strftime("%B")
+    print("Full name: ",full_month_name)
+
+    employee_data = User_Management.objects.get(auth_user=request.user)
+
+    import datetime, calendar
+    year = now.year
+    month = now.month
+    num_days = calendar.monthrange(year, month)[1]
+
+    ays = [datetime.date(year, month, day) for day in range(1, num_days+1)]
+    print("assss::::::")
+    print(ays)
+    year = now.year
+    month = now.month
+
+  
+
+    context = {
+        'full_month_name':month_name,
+        'days':days,
+        'employee_data_name':employee_data.employee_name,
+        'ays':ays,
+        'year':year,
+        'month':month
+    }
+
+    return render(request,'super_admin/user_leave_gantt_chart.html',context)
+
+
+
+def user_leave_gantt_chart_next_month_action(request):
+    print("next month::::::::::::")
+    from datetime import date
+    y = request.POST.get("year",False)
+    m = request.POST.get("month",False)
+    df = date(int(y),int(m)+1,1)
+    new_month = df.month
+    new_year = df.year
+    print("new_month::::::",str(new_month))
+    print("new_year:::::",str(new_year))
+    
+    import calendar
+    import datetime
+    
+    days = calendar.monthrange(int(new_year), int(new_month))[1]
+    print("total_days::::",str(days)) 
+
+    month_num = str(m)
+    datetime_object = datetime.datetime.strptime(str(new_month), "%m")
+
+    month_name = datetime_object.strftime("%b")
+    print("Short name: ",month_name)
+
+    full_month_name = datetime_object.strftime("%B")
+    print("Full name: ",full_month_name)
+    employee_data = User_Management.objects.get(auth_user=request.user)
+    import datetime, calendar
+    year = new_year
+    month = new_month
+    num_days = calendar.monthrange(year, month)[1]
+
+    ays = [datetime.date(year, month, day) for day in range(1, num_days+1)]
+    print("assss::::::")
+    print(ays)
+    context = {
+        'full_month_name':month_name,
+        'days':days,
+        'employee_data_name':employee_data.employee_name,
+        'ays':ays,
+        'year':year,
+        'month':month
+    }
+
+    return render(request,'super_admin/user_leave_gantt_chart.html',context)
+
+
+
+def user_leave_gantt_chart_prev_month_action(request):
+    print("next month::::::::::::")
+    from datetime import date
+    y = request.POST.get("year",False)
+    m = request.POST.get("month",False)
+    df = date(int(y),int(m)-1,1)
+    new_month = df.month
+    new_year = df.year
+    print("new_month::::::",str(new_month))
+    print("new_year:::::",str(new_year))
+    
+    import calendar
+    import datetime
+    
+    days = calendar.monthrange(int(new_year), int(new_month))[1]
+    print("total_days::::",str(days)) 
+
+    month_num = str(m)
+    datetime_object = datetime.datetime.strptime(str(new_month), "%m")
+
+    month_name = datetime_object.strftime("%b")
+    print("Short name: ",month_name)
+
+    full_month_name = datetime_object.strftime("%B")
+    print("Full name: ",full_month_name)
+    employee_data = User_Management.objects.get(auth_user=request.user)
+    import datetime, calendar
+    year = new_year
+    month = new_month
+    num_days = calendar.monthrange(year, month)[1]
+
+    ays = [datetime.date(year, month, day) for day in range(1, num_days+1)]
+    print("assss::::::")
+    print(ays)
+    context = {
+        'full_month_name':month_name,
+        'days':days,
+        'employee_data_name':employee_data.employee_name,
+        'ays':ays,
+        'year':year,
+        'month':month
+    }
+
+    return render(request,'super_admin/user_leave_gantt_chart.html',context)

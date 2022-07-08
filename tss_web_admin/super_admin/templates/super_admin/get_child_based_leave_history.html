@@ -1,0 +1,66 @@
+{% for history in leave_history_response %}
+<tr>
+    <td><a class="label-default" href="#/">{{history.holiday_status_id.1}}</a></td>
+   <td>
+    {{history.date_from}}
+   </td>
+   <td>
+    {{history.date_to}}
+   </td>
+   <td>
+    {{history.number_of_days}}
+   </td>
+ 
+   <td>
+    {{history.create_date}}
+   </td>
+   <td style="    background: white;
+   color: red;"> 
+    {% if history.state == "confirm" %}
+    <span style="    background: #fed47e;
+    color: black;
+    font-size: 12px;
+    padding: 4px 9px;
+    border: 0;
+    font-size: 12px;
+    user-select: none;
+    /* background-color: rgba(211, 211, 211, 0.5); */
+    font-weight: 500;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    transition: none;
+    border-radius: 12px;">To Approve</span>
+    {%  elif history.state == "validate" %}
+    <span style="background: #92d2a1;
+    color: black;
+    font-size: 12px;
+    padding: 4px 9px;
+    border: 0;
+    font-size: 12px;
+    user-select: none;
+    /* background-color: rgba(211, 211, 211, 0.5); */
+    font-weight: 500;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    transition: none;
+    border-radius: 12px;">Approved</span>
+    {% else %}
+    {{ history.state}}
+    {% endif %}
+   </td>
+   <td>
+    <a href="view_leave_more_details?id={{history.id}}">
+        <i class="fa fa-eye"></i>
+    </a>
+   </td>
+
+</tr>
+{% endfor %}

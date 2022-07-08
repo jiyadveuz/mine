@@ -1,0 +1,186 @@
+{% extends "super_admin/menu.html" %}
+{% load ganttchart %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<div class="card-box ">
+
+
+    
+
+   <div class="row" style="    padding: 25px 18px;">
+
+    <div class="col-md-2">
+
+        <div class="row">
+            <div class="col-md-2">
+                <form action="user_leave_gantt_chart_prev_month_action" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{year}}" name="year">
+                    <input type="hidden" value="{{month}}" name="month">
+                    <button style="background: #017e84;
+                    border: none;
+                    padding: 6px 14px;" type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></button>
+                  
+                </form>
+            </div>
+            <div class="col-md-4">
+                <a href="">
+                    <button style="background: #017e84;
+                    border: none;
+                    padding: 6px 30px;" type="button" class="btn btn-primary">{{full_month_name}}</button>
+                  
+                </a>
+            
+            </div>
+            <div class="col-md-2">
+                <form action="user_leave_gantt_chart_next_month_action" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{year}}" name="year">
+                    <input type="hidden" value="{{month}}" name="month">
+
+               
+                    <button  style="background: #017e84;
+                    border: none;
+                    padding: 6px 14px;" type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right"></i></button>
+                  </form>
+               
+            </div>
+        </div>
+    </div>
+   </div>
+
+
+    <table  class="table table-bordered" border="1">
+    
+    
+ <tr>
+     <td>
+         Name
+     </td>
+     
+     {% for i in "x"|rjust:days %}
+     <td style=" text-align: center;  ">
+         {{forloop.counter}}
+     </td>
+ 
+ 
+     {% endfor %}
+ 
+    
+     
+ 
+     </tr>
+
+ <tr>
+    <td>
+       <img style="    width: 12%;
+       padding: 3px 9px;" src="{% static 'u1.png' %}"> 
+
+       <span>{{employee_data_name}}</span>
+    </td>
+         {% for j in ays %}
+        
+         
+         
+             {% if  request.user.id|get_leave_available:j %}
+
+
+          
+                
+             {% for i in request.user.id|get_leave_available:j %}
+
+            
+            {% if i.possible == False and i.leave_from_previous_months >= 1 %}
+
+            <td style="       background: #a506067d;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.leave_from_previous_months}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                  
+                 </center>
+                 <span style="    font-size: 8px;"> {{i.date_from }} To {{i.date_to}}</span>
+                
+             </td>
+             {% elif i.possible == False %}
+ 
+             
+             {% else %}
+
+
+
+             {% if i.holiday_status_id.1 == "Annual Vacation" %}
+             <td style="       background: #b392a4;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             {% elif i.holiday_status_id.1 == "Unpaid" %}
+             <td style="       background: red;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             {% elif i.holiday_status_id.1 == "Paid Time Off" %}
+             <td style="       background: #f6a096;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             
+             {% else %}
+             <td style="       background: #262435;
+             color: white;
+             padding: 12px 40px;
+             font-size: 12px;" colspan="{{i.number_of_days}}">
+                 <center>
+                    {{i.holiday_status_id.1}}
+                 </center>
+                
+             </td>
+             {% endif %}
+             {% endif %}
+             {% endfor %}
+         
+          {% else %}
+ 
+          <td>
+            
+          
+          </td>
+          {% endif %}
+         
+ 
+         {% endfor %}
+         </tr>
+ 
+         
+         <!-- <td style="    background: red;" colspan="2">
+         
+         <center>
+             Leave Type
+         </center>
+         </td> -->
+       </span>
+     </tr>
+    </table>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    {% load ganttchart %}
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <h1>{{full_month_name}}</h1>
+   <table  style="
+   width: 100%;" border="3">
+   
+   
+<tr>
+    <td>
+        Name
+    </td>
+    
+    {% for i in "x"|rjust:days %}
+    <td style=" text-align: center;  ">
+        {{forloop.counter}}
+    </td>
+
+
+    {% endfor %}
+
+   
+    
+
+    </tr>
+    <tr>
+        <td>
+            {{employee_data_name}}
+        </td>
+
+        {% for j in ays %}
+        
+        
+            {% if  request.user.id|get_leave_available:j %}
+         
+         
+            {% for i in request.user.id|get_leave_available:j %}
+          
+          
+            {% if i.possible == False %}
+
+            
+            {% else %}
+            <td style="       background: #262435;
+            color: white;
+            padding: 12px 40px;
+            font-size: 12px;" colspan="{{i.number_of_days}}">
+                <center>
+                   {{i.holiday_status_id.1}}
+                </center>
+               
+            </td>
+            {% endif %}
+            {% endfor %}
+        
+         {% else %}
+
+         <td>
+           
+            
+         </td>
+         {% endif %}
+        
+
+        {% endfor %}
+
+        
+        <!-- <td style="    background: red;" colspan="2">
+        
+        <center>
+            Leave Type
+        </center>
+        </td> -->
+      </span>
+    </tr>
+   </table>
+</body>
+</html>

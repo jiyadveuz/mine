@@ -4,7 +4,7 @@
 
 {% block content %}
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <div class="content ">
     <div class="container-fluid">
@@ -38,14 +38,16 @@
 
               
                 <div class="card-box ">
-                   
+                   <a href="user_leave_gantt_chart" style="    float: right;
+                   padding: 3px 16px;    background: #72819c;
+    color: white;" ><i class="fa-solid fa-chart-gantt"></i></a>
 
-                   <div class="row" style="    padding: 20px 3px;">
+                   <div class="row" style="       padding: 50px 0px;">
                     {% for i1 in child_response %}
 
                     {% if emp_id ==  i1.registration_number %}
                     <div class="col-md-2">
-                        <a href="" style="    background: #262435;
+                        <a id="child_emp{{forloop.counter}}" onclick="child_function('{{i1.id}}','{{forloop.counter}}')" href="#" style="    background: #262435;
                         color: white;
                         padding: 12px 40px;
                         font-size: 12px;">{{i1.name}}</a>
@@ -55,7 +57,7 @@
 
                    
                     <div class="col-md-2">
-                        <a href="" style="    background:  #72819c;
+                        <a id="child_emp{{forloop.counter}}" onclick="child_function('{{i1.id}}','{{forloop.counter}}')" href="#" style="    background:  #72819c;
                         color: white;
                         padding: 12px 40px;
                         font-size: 12px;">{{i1.name}}</a>
@@ -90,7 +92,7 @@
                                   
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="leave_history_child">
                                     {% for history in leave_history_response %}
                                 <tr>
                                     <td><a class="label-default" href="#/">{{history.holiday_status_id.1}}</a></td>
@@ -110,9 +112,41 @@
                                    <td style="    background: white;
                                    color: red;"> 
                                     {% if history.state == "confirm" %}
-                                    <span style="    font-weight: bold;">pending</span>
+                                    <span style="    background: #fed47e;
+                                    color: black;
+                                    font-size: 12px;
+                                    padding: 4px 9px;
+                                    border: 0;
+                                    font-size: 12px;
+                                    user-select: none;
+                                    /* background-color: rgba(211, 211, 211, 0.5); */
+                                    font-weight: 500;
+                                    display: inline-block;
+                                    max-width: 100%;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    vertical-align: top;
+                                    transition: none;
+                                    border-radius: 12px;">To Approve</span>
                                     {%  elif history.state == "validate" %}
-                                    <span style="color: black">Approved</span>
+                                    <span style="background: #92d2a1;
+                                    color: black;
+                                    font-size: 12px;
+                                    padding: 4px 9px;
+                                    border: 0;
+                                    font-size: 12px;
+                                    user-select: none;
+                                    /* background-color: rgba(211, 211, 211, 0.5); */
+                                    font-weight: 500;
+                                    display: inline-block;
+                                    max-width: 100%;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    vertical-align: top;
+                                    transition: none;
+                                    border-radius: 12px;">Approved</span>
                                     {% else %}
                                     {{ history.state}}
                                     {% endif %}
@@ -141,6 +175,18 @@
 </div>
 </div>
 </div>
+<style>
+
+
+/* Important part */
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 80vh;
+    overflow-y: auto;
+}
+</style>
 
 <!-- <div class="modal modal-right fade" id="newuser" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
     <div class="modal-dialog modal-full" > -->
@@ -181,7 +227,7 @@
                         <div class="row">
                             <div class="col-md-12 mt-2">
                                 <div class="form-group bmd-form-group">
-                                    <select name="employee_name" class="form-control">
+                                    <select name="employee_name" class="form-control select2" id="emp_name_action">
                                         {% for i in child_response %}
                                         <option value="{{i.id}}">{{i.name}}[{{i.registration_number}}]</option>
 
@@ -198,7 +244,7 @@
                             <div class="col-sm-4 pad5 mt-2">
                                 <div class="form-group bmd-form-group">
                                     <input style="    background: #2b2c422b;
-                                    color: black;" readonly value="{{emp_id}}" name="employee_number" type="text" class="input form-control">
+                                    color: black;" readonly value="{{emp_id}}" name="employee_number" id="employee_reg_number" type="text" class="input form-control">
                                     <label class="inputText">Employee Number</label>
                                 </div>
                             </div>
@@ -377,7 +423,7 @@
                     <div class="col-12">
                         <h4 class="sub_hdng_edit">View Entitlement Balances</h4>
                     </div>
-                    <div class="col-md-12 pad0 ">
+                    <div class="col-md-12 pad0 " >
 
                         <div class="tbl_stngs commen_table m-t-8">
 
@@ -392,16 +438,21 @@
                                   
                                 </tr>
                                 </thead>
-                                <tbody>
+                           
+                                    <tbody id="entitlement_data1">
+                                    {% for i in entitlement_balances_response %}
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{forloop.counter}}</td>
                                     <td>
-                                     Paid Leave
+                                   {{i.leave_type}}
                                     </td>
-                                    <td>10</td>
-                                    <td>9</td>
+                                    <td>{{i.total_leaves}}</td>
+                                    <td>{{i.total_leave_balance}}</td>
                                 </tr>
+                      
+                                {% endfor %}
                                 </tbody>
+                               
                             </table>
                         </div>
                     </div>
@@ -1189,8 +1240,84 @@ checkbox.addEventListener('change', (event) => {
 
 <script>
 
+
+
+$("#emp_name_action").change(function(){
+    var selectedemploye_name = $(this).children("option:selected").val();  
+   
+    $.ajax({
+            url: 'get_selected_employee_entitlement_balance',
+            // datatype: 'json',
+            data: {
+                'employee_id': selectedemploye_name       
+            },
+            type: 'GET',
+            success: function (data) {  
+
+             
+            
+
+               $("#entitlement_data1").html(data);
+
+          
+                
+            }
+            
+        });
+})
 </script>
 
+
+<script>
+    function child_function(id,count1){
+     
+        count = `{{child_count}}`
+     
+        
+        for(let i=1;i<=count;i++)
+{
+    var b1 = "child_emp"+i
+    var b2 = "child_emp"+count1
+    if(b1==b2){
+        document.getElementById(b2).style.backgroundColor = "#262435";
+    }
+    else{
+        document.getElementById(b1).style.backgroundColor = "#72819c";
+
+    }
+  
+  console.log(i);
+  
+}
+
+
+$.ajax({
+            url: 'get_child_based_leave_history',
+            // datatype: 'json',
+            data: {
+                'employee_id': id       
+            },
+            type: 'GET',
+            success: function (data) {  
+
+              
+                $("#leave_history_child").html(data);
+
+                // leave_history_child
+            
+
+            //    $("#entitlement_data1").html(data);
+
+          
+                
+            }
+            
+        });
+
+
+        
+    }
+</script>
 
         
 {% endblock %}

@@ -1,0 +1,21 @@
+
+    {% for i in entitlement_balances_response %}
+<tr>
+    <td>{{forloop.counter}}</td>
+    <td>
+   {{i.leave_type}}
+    </td>
+    <td>{{i.total_leaves}}</td>
+    <td>{{i.total_leave_balance}}</td>
+</tr>
+
+{% endfor %}
+
+
+<script>
+    var id = `{{emp_registration_id}}`
+    
+    $("#employee_reg_number").val(id)
+
+</script>
+

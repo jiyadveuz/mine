@@ -112,6 +112,38 @@
                                 </p>
                                     </div>
                                 </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-3">
+                                        <p style="    font-weight: bold;font-size: 14px;">Absence Status</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p style=" padding: 3px 12px;  
+                                    ">
+                                    {% if r1.absence_status == False %}
+                                    {% else %}
+                                    {{r1.absence_status}}
+                                    {% endif %}
+                                    
+                                
+                                </p>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-3">
+                                        <p style="    font-weight: bold;font-size: 14px;">Absence Category</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p style=" padding: 3px 12px;  
+                                    ">
+                                    {% if r1.absence_category == False %}
+                                    {% else %}
+                                    {{r1.absence_category}}
+                                    {% endif %}
+                                    
+                                
+                                </p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6 mt-4">
                                 <div class="row mt-2">

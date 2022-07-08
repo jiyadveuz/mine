@@ -60,6 +60,13 @@ urlpatterns = [
     path('user_leave_apply_action',views.user_leave_apply_action,name='user_leave_apply_action'),
     path('view_all_notification',views.view_all_notification,name='view_all_notification'),
     path('view_leave_more_details',views.view_leave_more_details,name='view_leave_more_details'),
+    path('get_selected_employee_entitlement_balance',views.get_selected_employee_entitlement_balance,name='get_selected_employee_entitlement_balance'),
+    path('get_child_based_leave_history',views.get_child_based_leave_history,name='get_child_based_leave_history'),
+    path('user_leave_gantt_chart',views.user_leave_gantt_chart,name='user_leave_gantt_chart'),
+    path('user_leave_gantt_chart_next_month_action',views.user_leave_gantt_chart_next_month_action,name='user_leave_gantt_chart_next_month_action'),
+    path('user_leave_gantt_chart_prev_month_action',views.user_leave_gantt_chart_prev_month_action,name='user_leave_gantt_chart_prev_month_action'),
+    
+
     
     
     
@@ -79,6 +86,8 @@ urlpatterns = [
 
     path('test_r1',views.test_r1,name='test_r1'),
     path('test_r2',views.test_r2,name='test_r2'),
+    path('testchart',views.testchart,name='testchart'),
+    
     
 
     
