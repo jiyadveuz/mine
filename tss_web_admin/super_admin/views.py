@@ -20,6 +20,282 @@ from django.shortcuts import render, HttpResponse
 from channels.layers import get_channel_layer
 
 from .decorators import *
+
+
+def calendar(request):
+    user_auth_id = request.user.id
+    print("user_auth_id::::", str(user_auth_id))
+    odoo_id = 0
+
+    try:
+
+        odoo_data = User_Management.objects.get(auth_user=user_auth_id)
+        odoo_id = odoo_data.odoo_id
+
+    except:
+        pass
+
+    print("odoo_id::::::", str(odoo_id))
+
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+    odoo_token = odoo_token_data.token
+
+
+
+    child_response = ""
+    try:
+        child_response_url = api_domain + "api/get_childs"
+        child_payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "employee_id": int(odoo_id)
+
+            }
+        })
+        child_header = {
+            'api_key': odoo_token,
+            'Content-Type': 'application/json',
+            'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+        }
+        child_response1 = requests.request("GET", child_response_url, headers=child_header, data=child_payload).json()
+        child_response12 = child_response1['result']
+        child_response = child_response12['result']
+    except:
+        pass
+
+    context = {
+
+
+
+
+        'child_response': child_response
+
+    }
+
+    return render(request, 'super_admin/calendar.html', context)
+    # return render(request, 'super_admin/calendar.html')
+
+def event_depended(request):
+    event_id = request.GET.get('event_id')
+    print("jijijijijiii",event_id)
+    user_auth_id = request.user.id
+    print("user_auth_id::::", str(user_auth_id))
+    odoo_id = 0
+
+    try:
+
+        odoo_data = User_Management.objects.get(auth_user=user_auth_id)
+        odoo_id = odoo_data.odoo_id
+
+    except:
+        pass
+
+    print("odoo_id::::::", str(odoo_id))
+
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+    odoo_token = odoo_token_data.token
+    leave_history_response = ""
+    try:
+        leave_history_response_url = api_domain + "api/get_leave_history"
+        leave_history_payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "employee_id": int(odoo_id)
+            }
+        })
+        leave_history_headers = {
+            'api_key': odoo_token,
+            'Content-Type': 'application/json',
+            'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+        }
+
+        leave_history_response1 = requests.request("GET", leave_history_response_url, headers=leave_history_headers,
+                                                   data=leave_history_payload).json()
+        print("rs122223::::")
+
+        leave_history_response12 = leave_history_response1['result']
+        print("leave_history_response12",leave_history_response12)
+        leave_history_response = leave_history_response12['result']
+        print("r1::")
+        print(leave_history_response)
+
+
+    except:
+        pass
+
+    print("aaaaaaaaaaaaaaaaaaaajiyadddddddddddddddddddddddddddd:::::::", leave_history_response)
+
+    for i in leave_history_response:
+        print("id::::::::::::jiyad", str(i['id']))
+        if(str(i['id'])==event_id):
+            print(":::::::::::::::::::::::::::::::::::::::::::::::::::::")
+            context = {
+
+                'leave_history_response': leave_history_response
+
+            }
+            return render(request, 'super_admin/event_depended.html',context)
+
+
+def all_events(request):
+    user_auth_id = request.user.id
+    print("user_auth_id::::", str(user_auth_id))
+    odoo_id = 0
+
+    try:
+
+        odoo_data = User_Management.objects.get(auth_user=user_auth_id)
+        odoo_id = odoo_data.odoo_id
+
+    except:
+        pass
+
+    print("odoo_id::::::", str(odoo_id))
+
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+    odoo_token = odoo_token_data.token
+    leave_history_response = ""
+    try:
+        leave_history_response_url = api_domain + "api/get_leave_history_include_child"
+        leave_history_payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "employee_id": int(odoo_id),
+                "start_date": "2022-07-01",
+
+                "end_date": "2022-07-31"
+            }
+        })
+        leave_history_headers = {
+            'api_key': odoo_token,
+            'Content-Type': 'application/json',
+            'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+        }
+
+        leave_history_response1 = requests.request("GET", leave_history_response_url, headers=leave_history_headers,
+                                                   data=leave_history_payload).json()
+        print("rs122223::::")
+        print("response1::::::::")
+        print(leave_history_response1)
+
+        leave_history_response12 = leave_history_response1['result']
+        leave_history_response = leave_history_response12['result']
+        print("r1::")
+        print(leave_history_response)
+
+
+    except:
+        pass
+    out = []
+    print("jiyadddddddddddddddddddddddddddd:::::::",leave_history_response)
+    for event in leave_history_response:
+        print("id::::::::::::",str(event['id']))
+        print("date_from::",str(event['date_from']))
+        print("date_to::::",str(event['date_to']))
+        print(type(event['date_to']))
+        from datetime import datetime
+        print(datetime.fromisoformat(event['date_to']))
+        df = datetime.fromisoformat(event['date_to'])
+        print("date:::",str(df.date()))
+
+        from datetime import timedelta
+
+        date_time_obj = df+timedelta(days=1)
+        print("lll")
+        print(date_time_obj)
+
+        out.append({
+
+            'title':event['holiday_status_id'],
+            'id':event['id'],
+            'start': event['date_from'],
+            'end': date_time_obj,
+        })
+        print("----nnnnnnnnnnnnnnnnnn")
+    print("---------------")
+    print("---out-------")
+    print(out)
+    return JsonResponse(out, safe=False)
+
+def all_events1(request):
+
+    type1 = request.GET.get("type")
+
+    user_auth_id = request.user.id
+    print("user_auth_id::::", str(user_auth_id))
+    odoo_id = 0
+
+    try:
+
+        odoo_data = User_Management.objects.get(auth_user=user_auth_id)
+        odoo_id = odoo_data.odoo_id
+
+    except:
+        pass
+
+    print("odoo_id::::::", str(odoo_id))
+
+    odoo_token_data = odoo_api_request_token.objects.get(status="True")
+    odoo_token = odoo_token_data.token
+    leave_history_response = ""
+    try:
+        leave_history_response_url = api_domain + "api/get_leave_history"
+        leave_history_payload = json.dumps({
+            "jsonrpc": "2.0",
+            "params": {
+                "employee_id": int(odoo_id)
+            }
+        })
+        leave_history_headers = {
+            'api_key': odoo_token,
+            'Content-Type': 'application/json',
+            'Cookie': 'session_id=b53105332e1286dbd1609c81628966b3fd82110b'
+        }
+
+        leave_history_response1 = requests.request("GET", leave_history_response_url, headers=leave_history_headers,
+                                                   data=leave_history_payload).json()
+        print("rs122223::::")
+
+        leave_history_response12 = leave_history_response1['result']
+        leave_history_response = leave_history_response12['result']
+        print("r1::")
+        print(leave_history_response)
+
+
+    except:
+        pass
+
+
+    out = []
+    for event in leave_history_response:
+        print("id::::::::::::", str(event['id']))
+        print("date_from::", str(event['date_from']))
+        print("date_to::::", str(event['date_to']))
+        print(type(event['date_to']))
+        from datetime import datetime
+        print(datetime.fromisoformat(event['date_to']))
+        df = datetime.fromisoformat(event['date_to'])
+        print("date:::", str(df.date()))
+
+        from datetime import timedelta
+
+        date_time_obj = df + timedelta(days=1)
+        print("lll")
+        print(date_time_obj)
+        print("id::::::::::::jiyad1111111", str(event['id']))
+        print("type::::::::::::")
+        if (odoo_id == type1):
+            print("errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+            out.append({
+                'title':event['holiday_status_id'],
+                'id':event['id'],
+                'start': event['date_from'],
+                'end': date_time_obj,
+            })
+    print("---------------")
+    return JsonResponse(out, safe=False)
+
+
 def index(request):
     user_email = ""
     try:

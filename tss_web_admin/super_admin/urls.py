@@ -6,6 +6,12 @@ from . import views
 from django.contrib.auth import views as auth_views
 urlpatterns = [
 
+    path('calendar',views.calendar,name='calendar'),
+    path('event_depended',views.event_depended,name='event_depended'),
+    path('all_events',views.all_events),
+    path('all_events1',views.all_events1),
+
+
     path('',views.index,name='index'),
     path('login_action',views.login_action,name='login_action'),
     path('admin_dashboard',views.admin_dashboard,name='admin_dashboard'),
