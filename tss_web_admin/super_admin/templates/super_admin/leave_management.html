@@ -38,15 +38,20 @@
 
               
                 <div class="card-box ">
+                    <div >
+                        <a href="calendar" style="float: right;padding: 3px 16px 1px;" class="btn btn-info"> <i class="mdi mdi-calendar-text"></i></a>
+                    </div>
+                    <div style="padding-right:70px;">
                    <a href="user_leave_gantt_chart" style="    float: right;
                    padding: 3px 16px;    background: #72819c;
     color: white;" ><i class="fa-solid fa-chart-gantt"></i></a>
+                    </div>
 
                    <div class="row" style="       padding: 50px 0px;">
                     {% for i1 in child_response %}
 
                     {% if emp_id ==  i1.registration_number %}
-                    <div class="col-md-2">
+                    <div class="col-md-3" style="       padding: 10px 0px;">
                         <a id="child_emp{{forloop.counter}}" onclick="child_function('{{i1.id}}','{{forloop.counter}}')" href="#" style="    background: #262435;
                         color: white;
                         padding: 12px 40px;
@@ -56,7 +61,7 @@
                     {% else %}
 
                    
-                    <div class="col-md-2">
+                    <div class="col-md-3" style="       padding: 10px 0px;">
                         <a id="child_emp{{forloop.counter}}" onclick="child_function('{{i1.id}}','{{forloop.counter}}')" href="#" style="    background:  #72819c;
                         color: white;
                         padding: 12px 40px;
